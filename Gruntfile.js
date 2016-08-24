@@ -9,11 +9,6 @@ module.exports = function (grunt) {
                     dest: 'dist/scripts/',
                     expand: true
                 }, {
-                    cwd: 'src/kalman_filter/',
-                    src: '*',
-                    dest: 'dist/kalman_filter/',
-                    expand: true
-                }, {
                     cwd: 'node_modules/highcharts/themes/',
                     src: '*',
                     dest: 'dist/scripts/highcharts/themes/',
@@ -28,12 +23,22 @@ module.exports = function (grunt) {
                     src: 'math.js',
                     dest: 'dist/scripts/',
                     expand: true
+                }, {
+                    cwd: 'src/kalman_filter/',
+                    src: '*',
+                    dest: 'dist/kalman_filter/',
+                    expand: true
+                }, {
+                    cwd: 'src/linear_regression/',
+                    src: '*',
+                    dest: 'dist/linear_regression/',
+                    expand: true
                 }]
             }
         },
         watch: {
             vendor: {
-                files: ['src/kalman_filter/*'],
+                files: ['src/kalman_filter/*', 'src/linear_regression/*'],
                 tasks: ['copy:dev']
             }
         }
