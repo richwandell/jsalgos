@@ -4,6 +4,20 @@
         ap_image = false, p_ax = 0, p_ay = 0, ap_height = 0,
         mark_width, animate = true, mouse_move = false, particles = [];
 
+
+    function Kalman(){
+        var cest, pest = 0, mea, kg, eest = 1, emea = 1;
+
+        return function(m) {
+            mea = m;
+            kg = eest / (eest + emea);
+            cest = pest + kg * (mea - pest);
+            pest = cest;
+            eest = (emea * eest) / (emea + eest);
+            return cest;
+        }
+    }
+
     function init(){
         canvas = $("#a_canvas")[0];
         ctx = canvas.getContext('2d');
@@ -104,6 +118,11 @@
             ctx.fill();
         }
         resample();
+
+        ctx.beginPath();
+        ctx.arc(airplane_position * mark_width, y_c, 10, 0, 2*Math.PI, false);
+        ctx.fillStyle = "green";
+        ctx.fill();
     }
 
     function resample(){
@@ -122,7 +141,7 @@
                 good_x.push(gx);
 
                 var l = Math.max(0, gx - 1);
-                var r = gx + 1;
+                var r = gx + 2;
                 for(; l <= r; l++) {
                     if (good_x.indexOf(l) == -1){
                         good_x.push(l);
@@ -131,8 +150,9 @@
             }
         }
 
-
+        var k = new Kalman();
         var new_particles = [];
+        var est = 0;
         for (var x = 0; x < particle_number; x++) {
             var c_x = good_x[Math.floor(Math.random() * good_x.length)];
             new_particles.push({
@@ -140,11 +160,10 @@
                 w: 0,
                 h: getY(c_x * mark_width)
             });
+            est = k(c_x);
         }
-
-
+        airplane_position = est;
         particles = new_particles;
-
     }
 
     function drawAirplane(x, y){
@@ -152,10 +171,10 @@
             ap_image = document.createElement("img");
             ap_image.src = "ap.png";
             ap_image.onload = function(event){
-                ctx.drawImage(ap_image, x, y, 20, 20);
+                ctx.drawImage(ap_image, x - 10, y, 20, 20);
             }
         }else{
-            ctx.drawImage(ap_image, x, y, 20, 20);
+            ctx.drawImage(ap_image, x - 10, y, 20, 20);
         }
         p_ax = x;
         p_ay = y;
@@ -176,7 +195,7 @@
     function getY(x){
         var particle_number = Math.floor((x / canvas.width) * 100);
 
-        return canvas.height - (2 * particle_number + Math.sin(.5 * particle_number) * 30);
+        return canvas.height - (2 * particle_number + Math.sin(.2 * particle_number) * 40);
     }
 
     $(function(){
