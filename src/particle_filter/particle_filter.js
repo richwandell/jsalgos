@@ -2,9 +2,15 @@
 
     var canvas, ctx, particle_number = 150, mouse_x = 0, mouse_y = 0,
         ap_image = false, p_ax = 0, p_ay = 0, ap_height = 0,
-        mark_width, animate = true, mouse_move = false, particles = [];
+        mark_width, animate = true, mouse_move = false, particles = [], airplane_position = 0;
 
-
+    /**
+     * A super simple Kalman filter is used to filter noise in the remaining particles in order to derive a true
+     * prediction. The true prediction is displayed as a green circle
+     *
+     * @returns {Function}
+     * @constructor
+     */
     function Kalman(){
         var cest, pest = 0, mea, kg, eest = 1, emea = 1;
 
@@ -24,6 +30,8 @@
 
         canvas.width = $(window).width() - 20;
         canvas.height = $(window).height() - 30;
+
+        //mark width is the distance between each particle
         mark_width = canvas.width / particle_number;
 
         //Airplane is flying at canvas.height / 3 altitude
@@ -32,11 +40,9 @@
         createParticles(particle_number);
         drawTickMarks();
 
-        //$(canvas).css("cursor", "none");
         mouse_x = 0;
         function tick(){
             mouse_x = mouse_x + 1;
-            mouse_y = mouse_y;
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -76,6 +82,13 @@
         });
     }
 
+    /**
+     * Populates the particles array
+     * x is the particle number 0-n
+     * w is the particle weight that will be assigned in the draw particles function
+     * h is the height of the particle or our Y coordinate. H is our known land height
+     * @param n
+     */
     function createParticles(n){
         particles = [];
         for(var x = 0; x < n; x++){
@@ -87,14 +100,25 @@
         }
     }
 
+    /**
+     * This emulates a radar reading to determine ground distance which is the difference between the
+     * airplanes altitude (ap_height) and the ground height (getY(mouse_x))
+     *
+     * Both the airplanes altitude and the ground
+     *
+     * @param x
+     * @returns {number}
+     */
     function getGroundDistance(x){
         return Math.abs(ap_height - getY(mouse_x));
     }
+
 
     function drawParticles(){
         var c_p, diff, x_c, y_c, weight,
             gd = getGroundDistance();
 
+        //draws a green line at the currently measured ground height
         ctx.strokeStyle = "green";
         ctx.moveTo(0, ap_height + gd);
         ctx.lineTo(canvas.width, ap_height + gd);
@@ -106,7 +130,20 @@
 
             x_c = c_p.x * mark_width;
 
+            // calculate the weight for this particle
 
+            // diff is the difference between the airplanes measured ground height
+            // (airplanes height - distance to the ground) or upside down (ap_height + gd)
+            // and the actual ground height for the current particle (c_p)
+
+            // ap_height is the Y distance from upper Y to where the airplane is flying
+
+            // gd is the distance from the airplane to the ground, assuming this would use a radio altimeter or radar
+
+            // ap_height + gd is the Y position of the ground (upside down because of pixels in upper left)
+
+            // c_p.h is the height of the current particle which is the actual height of the ground position
+            // that this particle represents
             diff = Math.abs((ap_height + gd) - c_p.h);
             weight = Math.max(0, 10 - (diff / 10));
             c_p.w = Math.floor(weight);
@@ -195,7 +232,7 @@
     function getY(x){
         var particle_number = Math.floor((x / canvas.width) * 100);
 
-        return canvas.height - (2 * particle_number + Math.sin(.2 * particle_number) * 40);
+        return canvas.height - (3 * particle_number + Math.sin(.5 * particle_number) * 40);
     }
 
     $(function(){
