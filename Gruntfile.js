@@ -24,21 +24,16 @@ module.exports = function (grunt) {
                     dest: 'dist/scripts/',
                     expand: true
                 }, {
-                    cwd: 'src/kalman_filter/',
-                    src: '*',
-                    dest: 'dist/kalman_filter/',
-                    expand: true
-                }, {
-                    cwd: 'src/linear_regression/',
-                    src: '*',
-                    dest: 'dist/linear_regression/',
+                    cwd: 'src/',
+                    src: ['*', '**'],
+                    dest: 'dist/',
                     expand: true
                 }]
             }
         },
         watch: {
             vendor: {
-                files: ['src/kalman_filter/*', 'src/linear_regression/*'],
+                files: ['src/**/*.*'],
                 tasks: ['copy:dev']
             }
         }
