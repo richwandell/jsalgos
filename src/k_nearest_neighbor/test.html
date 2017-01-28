@@ -1,0 +1,64 @@
+<!Doctype html>
+
+<head>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/highcharts/highcharts.js"></script>
+    <script src="../scripts/math.js"></script>
+    <script src="k_nearest_neighbor.js"></script>
+    <style>
+        #data_table tbody{
+            font-size: 9px;
+        }
+        #quick_prediction{
+            height: 100px;
+            width: 100px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div id="hc_container"></div>
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <table>
+                    <caption>Quick Predictor (Mouse over canvas to get 2 values)</caption>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <canvas id="quick_prediction" width="100" height="100"></canvas>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <caption>Predictor</caption>
+                    <tbody>
+                        <tr>
+                            <td><input type="number" id="pre_1" min="1" max="100"></td>
+                            <td><input type="number" id="pre_2" min="1" max="100"></td>
+                            <td><button type="button" id="predict_b">Predict</button></td>
+                            <td><input type="number" id="pre_out"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<table id="data_table">
+    <caption>Source Data</caption>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script src="https://gist.github.com/richwandell/a67e123a1f0f70c386e7f50e9b955ced.js"></script>
+
+</body>

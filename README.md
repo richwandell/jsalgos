@@ -9,3 +9,6 @@ https://richwandell.github.io/jsalgos/dist/kalman_filter/test.html
 
 ## Particle Filter
 https://richwandell.github.io/jsalgos/dist/particle_filter/test.html
+
+## K Nearest Neighbor
+https://richwandell.github.io/jsalgos/dist/k_nearest_neighbor/test.html
