@@ -14,16 +14,25 @@
             width: 100px;
             border: 1px solid black;
         }
+        #prediction_table{
+            width: 100%;
+        }
+        #quick_prediction_table{
+            width: 100%;
+        }
+        table td{
+            vertical-align: top;
+        }
     </style>
 </head>
 
 <body>
 <div id="hc_container"></div>
-<table>
+<table id="prediction_table">
     <tbody>
         <tr>
             <td>
-                <table>
+                <table id="quick_prediction_table">
                     <caption>Quick Predictor (Mouse over canvas to get 2 values)</caption>
                     <tbody>
                         <tr>
@@ -35,7 +44,7 @@
                 </table>
             </td>
             <td>
-                <table>
+                <table id="predictor_table">
                     <caption>Predictor</caption>
                     <tbody>
                         <tr>
@@ -48,17 +57,21 @@
                 </table>
             </td>
         </tr>
+        <tr>
+            <td>
+                <table id="data_table">
+                    <caption>Source Data</caption>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </td>
+            <td>
+                <script src="https://gist.github.com/richwandell/a67e123a1f0f70c386e7f50e9b955ced.js"></script>
+            </td>
+        </tr>
     </tbody>
 </table>
 
-
-<table id="data_table">
-    <caption>Source Data</caption>
-    <tbody>
-
-    </tbody>
-</table>
-
-<script src="https://gist.github.com/richwandell/a67e123a1f0f70c386e7f50e9b955ced.js"></script>
 
 </body>
