@@ -205,7 +205,30 @@
         });
 
         var canvas = $("#quick_prediction")[0];
-        var context = canvas.getContext("2d");
+        var ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        ctx.strokeStyle = "red";
+        ctx.moveTo(20, 50);
+        ctx.lineTo(80, 50);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(50, 20);
+        ctx.lineTo(50, 80);
+        ctx.stroke();
+
+        ctx.fillText("0", 2, 10);
+        ctx.fillText("25", 45, 10);
+        ctx.fillText("25", 2, 52);
+
+        ctx.fillText("50", 86, 10);
+        ctx.fillText("50", 2, 98);
+
+        ctx.fillText("75", 45, 98);
+        ctx.fillText("75", 86, 52);
+
+        ctx.fillText("100", 82, 98);
 
         $("#quick_prediction").on({
             "mousemove": function(e){
