@@ -21,12 +21,14 @@
     var max_c = 0;
     var min_c = 0;
 
-    var outArray = Array.apply(null, {length: 50})
+    var data_length = 100;
+
+    var outArray = Array.apply(null, {length: data_length})
         .map(function(i, current){
             return Math.random() * 100;
         });
 
-    var dataset = Array.apply(null, {length: 50})
+    var dataset = Array.apply(null, {length: data_length})
         .map(function (i, index){
             var min = outArray[index] - outArray[index] * .2;
             var max = outArray[index] + outArray[index] * .2;
@@ -40,7 +42,7 @@
         });
 
     var normalized = (function(d){
-        var n = Array.apply(null, {length: 50})
+        var n = Array.apply(null, {length: data_length})
             .map(function(i, index){
                 return [0,0,0];
             });
