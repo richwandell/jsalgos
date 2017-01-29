@@ -95,7 +95,7 @@
                 c2 = [distance, normalized[i][2]];
             }
         }
-        return (c1[1] + c1[1]) / 2;
+        return (c1[1] + c2[1]) / 2;
     }
 
     var series = [
