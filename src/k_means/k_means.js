@@ -1,58 +1,49 @@
 ;(function($){
     /**
-     * Generate a data set with 5 centroids.
+     * Generate a data set with data points centered around centroids
+     *
      * The data points will all be randomly generated within max_range of the centroids
      *
      * This generated data will be used in the clustering based prediction to attempt to determine a class that
      * is associated with a centroid
      *
-     * (Pretend we don't already know our centroids)
+     * (Centroids below are only used for initial data generation, new centroids are randomly selected)
      *
      */
+    var chart;
     var max_range = 80;
     var centroids = [
-        //Class 1
         [10, 10],
-        //Class 2
         [150, 50],
-        //Class 3
         [150, 200],
-        //Class 4
         [300, 300],
-        //Class 5
-        [300, 100]
+        [300, 100],
+        [0, 300]
     ];
-    var dataset = (function(c){
-        var points = [];
-        for(var i = 0; i < c.length; i++){
-            for(var j = 0; j < 20; j++){
-                var xmax = c[i][0] + max_range;
-                var xmin = c[i][0] - max_range;
-                var ymax = c[i][1] + max_range;
-                var ymin = c[i][1] - max_range;
-                points.push([
-                    Math.random() * (xmax - xmin) + xmin,
-                    Math.random() * (ymax - ymin) + ymin
-                ]);
-            }
-        }
-        return points;
-    })(centroids);
-    var classes = ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"];
+    //Randomly generate 20 points near the above centroids
+    var dataset = centroids
+        .map(function(cent){
+            var xmax = cent[0] + max_range;
+            var xmin = cent[0] - max_range;
+            var ymax = cent[1] + max_range;
+            var ymin = cent[1] - max_range;
 
-    var K = 5;
+            return Array
+                .apply(null, {length: 20})
+                .map(function(i, index){
+                    return [
+                        Math.random() * (xmax - xmin) + xmin,
+                        Math.random() * (ymax - ymin) + ymin
+                    ];
+                });
+        })
+        .reduce(function(a, b){ return a.concat(b); })
+        .sort(function(a, b){ return a[0] - b[0]; });
 
-    //Randomly choose centroids as our starting point for the K Means clustering
-    var clusters = [
-        [dataset[Math.random() * dataset.length - 1]],
-        [dataset[Math.random() * dataset.length - 1]],
-        [dataset[Math.random() * dataset.length - 1]],
-        [dataset[Math.random() * dataset.length - 1]],
-        [dataset[Math.random() * dataset.length - 1]]
-    ];
-
-
-
+    //Randomly pick a center point for our clusters (we don't know about the above centroids)
+    var clusters = centroids.map(function(cent){
+        return [dataset[Math.floor(Math.random() * dataset.length - 1)]];
+    });
     var series = [
         {
             name: 'Measurement',
@@ -62,22 +53,155 @@
                 enabled : true,
                 radius : 3
             }
-        },
-        // {
-        //     name: 'Regression Line',
-        //     data: dataset.map(knn),
-        //     lineWidth: 1,
-        //     type: "spline",
-        //     marker: {
-        //         enabled: true,
-        //         radius: 0
-        //     }
-        // }
+        }
     ];
+    var colors = ['red', 'green', 'yellow', 'orange', 'purple', 'blue'];
+    var iterations = 0;
+    var interval;
+    var old_error = centroids.map(function(cent){return Infinity;});
+
+    /**
+     * Euclidean distance
+     *
+     * @param a
+     * @param b
+     * @returns {number}
+     */
+    function dist(a, b){
+        var root = 0;
+        for(var i = 0; i < a.length; i++){
+            root += Math.pow((a[i] - b[i]), 2);
+        }
+        return Math.sqrt(root);
+    }
+
+    /**
+     * Run our k Means algorithm
+     * @param c
+     * @returns {Array}
+     */
+    function kMeans(c){
+        var center, i, j;
+        var new_clusters = [];
+        var new_error = centroids.map(function(){return 0;});
+        centroids = [];
+        //Determine the center point of each cluster
+        for(i = 0; i < c.length; i++){
+            var clu = c[i];
+            var x = 0, y = 0;
+            for(j = 0; j < clu.length; j++){
+                x += clu[j][0];
+                y += clu[j][1];
+            }
+            center = [x / clu.length, y / clu.length];
+            new_clusters.push([center]);
+            centroids.push(center);
+        }
+        //Each data point will find it's distance to the cluster center points
+        for(i = 0; i < dataset.length; i++){
+            var dp = dataset[i];
+            var closest = false;
+            var closest_distance = Infinity;
+            for(j = 0; j < centroids.length; j++){
+                center = centroids[j];
+                var distance = dist(center, dp);
+                if(distance < closest_distance){
+                    closest = j;
+                    closest_distance = distance;
+                    new_error[j] = Number(new_error[j]) + Math.pow(closest_distance, 2);
+                }
+            }
+            new_clusters[closest].push(dp);
+        }
+        //Check for our stopping condition using the
+        var same = true;
+        for(i = 0; i < new_error.length; i++){
+            if(new_error[i] !== old_error[i]){
+                same = false;
+                old_error = new_error;
+                break;
+            }
+        }
+        if(same){
+            clearInterval(interval);
+            $("#iterations").html(iterations + " Convergence!");
+        }
+        return new_clusters;
+    }
+
+    function tick(){
+        var series;
+
+        for(var x = 0; x < clusters.length; x++){
+            series = chart.get('cluster-' + x);
+            if(series){
+                series.remove();
+            }
+        }
+
+        series = chart.get('centroids');
+        if(series){
+            series.remove();
+        }
+        $("#iterations").html(iterations);
+        clusters = kMeans(clusters);
+        for(var x = 0; x < clusters.length; x++) {
+            chart.addSeries({
+                color: colors[x],
+                id: 'cluster-' + x,
+                name: 'Cluster ' + x,
+                data: clusters[x].sort(function(a, b){
+                    return a[0] - b[0];
+                }),
+                lineWidth : 0,
+                marker : {
+                    enabled : true,
+                    radius : 3,
+                    symbol: 'circle'
+                }
+            })
+        }
+
+        chart.addSeries({
+            color: 'black',
+            id: 'centroids',
+            name: 'Centroids',
+            data: centroids.sort(function(a, b){
+                return a[0] - b[0];
+            }),
+            lineWidth: 0,
+            marker: {
+                enabled: true,
+                radius: 7,
+                symbol: 'circle'
+            }
+        });
+        iterations++;
+    }
+
 
     $(function(){
 
-        var chart = new Highcharts.Chart({
+
+        clusters = kMeans(clusters);
+        for(var x = 0; x < clusters.length; x++) {
+            series.push({
+                color: colors[x],
+                id: 'cluster-' + x,
+                name: 'Cluster ' + x,
+                data: clusters[x].sort(function(a, b){
+                    return a[0] - b[0];
+                }),
+                lineWidth : 0,
+                marker : {
+                    enabled : true,
+                    radius : 3,
+                    symbol: 'circle'
+                }
+            })
+        }
+
+        chart = new Highcharts.Chart({
             chart:{
                 renderTo: 'hc_container'
             },
@@ -97,12 +221,23 @@
                 verticalAlign: 'middle',
                 borderWidth: 0
             },
-            series: series
+            series: series,
+            plotOptions:{
+                series: {
+                    animation: false
+                }
+            }
         });
+
 
         $("#run_button").click(function(e){
-
+            clearInterval(interval);
+            interval = setInterval(tick, 1000);
         });
+        $("#stop_button").click(function(e){
+            clearInterval(interval)
+        });
+        interval = setInterval(tick, 1000);
     });
 
 })(jQuery);

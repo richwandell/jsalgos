@@ -12,3 +12,6 @@ https://richwandell.github.io/jsalgos/dist/particle_filter/test.html
 
 ## K Nearest Neighbor
 https://richwandell.github.io/jsalgos/dist/k_nearest_neighbor/test.html
+
+## K Means Clustering
+https://richwandell.github.io/jsalgos/dist/k_means/test.html

@@ -3,33 +3,14 @@
 <head>
     <script src="../scripts/jquery.min.js"></script>
     <script src="../scripts/highcharts/highcharts.js"></script>
-    <script src="../scripts/math.js"></script>
     <script src="k_means.js"></script>
-    <style>
-        #data_table tbody{
-            font-size: 9px;
-        }
-        #quick_prediction{
-            height: 100px;
-            width: 100px;
-            border: 1px solid black;
-        }
-        #prediction_table{
-            width: 100%;
-        }
-        #quick_prediction_table{
-            width: 100%;
-        }
-        table td{
-            vertical-align: top;
-        }
-    </style>
 </head>
 
 <body>
 <div id="hc_container"></div>
 <button id="run_button">Run</button>
 <button id="stop_button">Stop</button>
+<label>Number of Iterations: <span id="iterations"></span></label>
 
-
+<script src="https://gist.github.com/richwandell/7272a84dd59295c7c850887dcb21d810.js"></script>
 </body>
