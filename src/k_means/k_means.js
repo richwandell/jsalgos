@@ -108,9 +108,9 @@
                 if(distance < closest_distance){
                     closest = j;
                     closest_distance = distance;
-                    new_error[j] = Number(new_error[j]) + Math.pow(closest_distance, 2);
                 }
             }
+            new_error[closest] = Number(new_error[closest]) + Math.pow(closest_distance, 2);
             new_clusters[closest].push(dp);
         }
         //Check for our stopping condition using the
