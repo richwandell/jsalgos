@@ -81,14 +81,14 @@
      * @returns {Array}
      */
     function kMeans(c){
-        var center, i, j;
-        var new_clusters = [];
-        var new_error = centroids.map(function(){return 0;});
+        var center, i, j, new_clusters = [], new_error = centroids.map(function(){return 0;}),
+            x, y, clu, dp, closest, closest_distance, distance, same;
         centroids = [];
         //Determine the center point of each cluster
         for(i = 0; i < c.length; i++){
-            var clu = c[i];
-            var x = 0, y = 0;
+            clu = c[i];
+            x = 0;
+            y = 0;
             for(j = 0; j < clu.length; j++){
                 x += clu[j][0];
                 y += clu[j][1];
@@ -99,12 +99,12 @@
         }
         //Each data point will find it's distance to the cluster center points
         for(i = 0; i < dataset.length; i++){
-            var dp = dataset[i];
-            var closest = false;
-            var closest_distance = Infinity;
+            dp = dataset[i];
+            closest = false;
+            closest_distance = Infinity;
             for(j = 0; j < centroids.length; j++){
                 center = centroids[j];
-                var distance = dist(center, dp);
+                distance = dist(center, dp);
                 if(distance < closest_distance){
                     closest = j;
                     closest_distance = distance;
@@ -114,7 +114,7 @@
             new_clusters[closest].push(dp);
         }
         //Check for our stopping condition using the
-        var same = true;
+        same = true;
         for(i = 0; i < new_error.length; i++){
             if(new_error[i] !== old_error[i]){
                 same = false;
