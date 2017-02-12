@@ -15,3 +15,6 @@ https://richwandell.github.io/jsalgos/dist/k_nearest_neighbor/test.html
 
 ## K Means Clustering
 https://richwandell.github.io/jsalgos/dist/k_means/test.html
+
+## Decision Tree
+https://richwandell.github.io/jsalgos/dist/decision_tree/test.html

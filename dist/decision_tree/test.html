@@ -1,0 +1,59 @@
+<!Doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.13/js/dataTables.material.min.js"></script>
+    <script src="d_tree.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/dataTables.material.min.css" />
+    <style>
+        .node circle {
+            stroke-width: 3px;
+        }
+
+        .node text { font: 12px sans-serif; }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 0px;
+        }
+
+        .mdl-data-table td, .mdl-data-table th {
+            height: auto;
+        }
+
+        #d3_container, #guess{
+            display: inline-block;
+        }
+        #d3_container{
+            width: 50%;
+        }
+        @media (min-width: 840px) {
+            .mdl-cell {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="d3_container"></div>
+    <div id="guess">
+        <ul>
+
+        </ul>
+        <span id="prediction"></span>
+    </div>
+
+    <table id="data_table" class="mdl-data-table" cellspacing="0""></table>
+
+</body>
