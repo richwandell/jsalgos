@@ -215,6 +215,11 @@
         }
         p_ax = x;
         p_ay = y;
+        if(x > canvas.width){
+            airplane_position = 0;
+            mouse_x = 0;
+            createParticles(particle_number);
+        }
     }
 
     function drawTickMarks(){
@@ -232,7 +237,7 @@
     function getY(x){
         var particle_number = Math.floor((x / canvas.width) * 100);
 
-        return canvas.height - (3 * particle_number + Math.sin(1 * particle_number) * 40);
+        return canvas.height - Math.abs(particle_number + Math.sin(.2 * particle_number) * 40);
     }
 
     $(function(){
