@@ -24,20 +24,20 @@
     var allFeatures = ['outlook', 'temperature', 'humidity', 'wind', 'mood', 'hunger', 'cost'];
 
     var days = [
-        ['Sunny', 'Hot', 'High', 'Weak', 'Sad', 'Full', 'High'],
-        ['Sunny', 'Hot', 'High', 'Strong', 'Happy', 'Hungry', 'Low'],
-        ['Overcast', 'Hot', 'High', 'Weak', 'Sad', 'Hungry', 'High'],
-        ['Rain', 'Mild', 'High', 'Weak', 'Sad', 'Hungry', 'Low'],
-        ['Rain', 'Cool', 'Normal', 'Weak', 'Sad', 'Full', 'High'],
-        ['Rain', 'Cool', 'Normal', 'Strong', 'Happy', 'Full', 'Low'],
-        ['Overcast', 'Cool', 'Normal', 'Strong', 'Happy', 'Hungry', 'High'],
-        ['Sunny', 'Mild', 'High', 'Weak', 'Sad', 'Full', 'Low'],
-        ['Sunny', 'Cool', 'Normal', 'Weak', 'Sad', 'Hungry', 'High'],
-        ['Rain', 'Mild', 'Normal', 'Weak', 'Sad', 'Hungry', 'Low'],
-        ['Sunny', 'Mild', 'Normal', 'Strong', 'Happy', 'Hungry', 'High'],
-        ['Overcast', 'Mild', 'High', 'Strong', 'Happy', 'Full', 'Low'],
-        ['Overcast', 'Hot', 'Normal', 'Weak', 'Sad', 'Full', 'High'],
-        ['Rain', 'Mild', 'High', 'Strong', 'Angry', 'Hungry', 'Low']
+        ["Sunny","Hot","High","Weak","Sad","Full","High"],
+        ["Overcast","Hot","High","Strong","Happy","Hungry","Low"],
+        ["Sunny","Hot","High","Weak","Sad","Hungry","High"],
+        ["Overcast","Mild","High","Weak","Sad","Hungry","Low"],
+        ["Rain","Cool","Normal","Weak","Sad","Full","High"],
+        ["Rain","Cool","Normal","Strong","Happy","Full","Low"],
+        ["Overcast","Cool","Normal","Strong","Happy","Hungry","High"],
+        ["Sunny","Mild","High","Weak","Sad","Full","Low"],
+        ["Overcast","Cool","Normal","Weak","Sad","Hungry","High"],
+        ["Overcast","Mild","Normal","Weak","Sad","Hungry","Low"],
+        ["Overcast","Mild","Normal","Strong","Happy","Hungry","High"],
+        ["Overcast","Mild","High","Strong","Happy","Full","Low"],
+        ["Overcast","Hot","Normal","Weak","Sad","Full","High"],
+        ["Sunny","Mild","High","Strong","Angry","Hungry","Low"]
     ];
 
     var shouldWePlay = ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No'];
@@ -45,6 +45,8 @@
     var possibleClasses = shouldWePlay.unique();
 
     var features = allFeatures;
+
+    var predictedValue = "";
 
     function makeClasses(usableFeatures){
         var tempClasses = [];
@@ -183,6 +185,7 @@
 
             var newRoot = {
                 name: rootData[0],
+                color: "steelblue",
                 children: []
             };
 
@@ -195,13 +198,15 @@
                     var value = classData[featureIndex][enti];
                     newRoot.children.push({
                         name: value.c,
-                        prob: value.p
+                        prob: value.p,
+                        color: "palevioletred"
                     });
                 }else{
                     var value = classData[featureIndex][enti];
                     newChildFeatures.push({
                         name: value.c,
                         prob: value.p,
+                        color: "palevioletred",
                         children: []
                     });
                 }
@@ -234,7 +239,6 @@
         }
 
         var fea = calc(allFeatures);
-        drawD3tree(fea);
         predict(fea);
     }
 
@@ -244,7 +248,6 @@
                 return {x: i, f: $(el).val()};
             })
             .toArray();
-        console.log(values, root);
 
         var stack = [root];
         var question = root.name;
@@ -252,7 +255,7 @@
         while(stack.length > 0){
             var item = stack.pop();
             var isLeaf = typeof(item.prob) !== "undefined";
-            var hasChildren = typeof(item.children) != "undefined";
+            var hasChildren = typeof(item.children) != "undefined" && item.children.length > 0;
 
             if(
                 (hasChildren && !isLeaf) ||
@@ -260,9 +263,8 @@
             ){
                 stack = stack.concat(item.children);
             }else if(answer === item.name){
+                item.color = "palegreen";
                 var highestProb = item.prob.largest();
-                console.log(item.name);
-                console.log("Answer: " + possibleClasses[highestProb]);
                 $("#prediction").html("Answer: " + possibleClasses[highestProb]);
             }
 
@@ -274,6 +276,7 @@
                 answer = answer[0].f;
             }
         }
+        drawD3tree(root);
     }
 
     function drawD3tree(treeData){
@@ -303,7 +306,7 @@
         node.append("circle")
             .attr("r", 10)
             .attr("stroke", function(d){
-                return typeof(d.prob) != "undefined" ? "palevioletred" : "steelblue";
+                return d.color;
             })
             .attr("fill", "white");
 
@@ -366,6 +369,17 @@
                     $(el).html(select);
                 });
             });
+            if(!drawn) {
+                var tr = $("#data_table tr:first").clone();
+                $(tr)
+                    .addClass("rich_tr")
+                    .find("th:not(:last)")
+                    .each(function (i, el) {
+                        $(el).html("<button data-x='" + i + "'>Easy Predictor</button>");
+                    });
+
+                $("#data_table thead").prepend(tr);
+            }
             drawn = true;
         });
 
@@ -399,6 +413,22 @@
 
         $(document).on("change", "#guess ul select", function(e){
             init();
+        });
+
+        $(document).on("click", "#data_table .rich_tr button", function(e){
+            var x = $(this).data("x");
+            var first_answer = $("#data_table tbody tr:first td:last").text();
+            $("#data_table tbody td:nth-child(" + (x + 1) + ")").each(function(i, el){
+                var select = $(el).find("select");
+                var row_answer = $(el).parents("tr").find("td:last").text();
+
+                if(row_answer == first_answer){
+                    select[0].selectedIndex = 0;
+                }else{
+                    select[0].selectedIndex = 1;
+                }
+                $(select).trigger("change");
+            });
         });
 
         init();
