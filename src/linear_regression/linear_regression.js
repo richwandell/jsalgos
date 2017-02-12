@@ -1,7 +1,7 @@
 ;(function($){
 
     var real_numbers = Array.apply(null, {length: 50}).map(function(i, current){
-        return 50;
+        return current;
     });
 
     var measurements = Array.apply(null, {length: 50}).map(function (i, current){
@@ -26,29 +26,22 @@
         }
     })(measurements);
 
-
     var series = [{
-        name: 'Correct Number',
-        data: real_numbers,
-        lineWidth : 1,
-        type: "spline",
-        marker : {
-            enabled : false,
-            radius : 2
-        }
-    }, {
         name: 'Measurement',
         data: measurements,
-        lineWidth : 0,
+        lineWidth : 1,
+        type: 'spline',
+        color: 'palevioletred',
         marker : {
             enabled : true,
             radius : 3
         }
     },{
         name: 'Regression Line',
-        data: measurements.map(linreg),
+        data: real_numbers.map(linreg),
         lineWidth: 1,
         type: "spline",
+        color: 'steelblue',
         marker: {
             enabled: true,
             radius: 2
