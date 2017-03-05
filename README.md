@@ -18,3 +18,6 @@ https://richwandell.github.io/jsalgos/dist/k_means/test.html
 
 ## Decision Tree
 https://richwandell.github.io/jsalgos/dist/decision_tree/test.html
+
+## Artificial Neural Network
+https://richwandell.github.io/jsalgos/dist/a_nn/test.html

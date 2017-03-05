@@ -4,6 +4,11 @@ module.exports = function (grunt) {
         copy: {
             dev: {
                 files: [{
+                    cwd: 'node_modules/numeric/',
+                    src: 'numeric-1.2.6.min.js',
+                    dest: 'dist/scripts/',
+                    expand: true
+                },{
                     cwd: 'node_modules/jquery/dist/',
                     src: 'jquery.min.js',
                     dest: 'dist/scripts/',
