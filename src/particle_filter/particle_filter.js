@@ -80,6 +80,11 @@
                 requestAnimationFrame(tick);
             }
         });
+
+        $("#reset_particles").click(function(e){
+            createParticles(particle_number);
+            return false;
+        });
     }
 
     /**
