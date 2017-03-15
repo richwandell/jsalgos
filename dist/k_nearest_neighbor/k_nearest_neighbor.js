@@ -69,6 +69,8 @@
 
     var neighbors = [];
 
+    var canvas, ctx;
+
     function knn(s){
         //Normalize sample
         var s0 = (s[0] - min_a) / max_a - min_a;
@@ -130,7 +132,108 @@
         };
     }
 
+    function canvasRedraw(mouse_x, mouse_y){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.strokeStyle = "red";
+        ctx.moveTo(20, 50);
+        ctx.lineTo(80, 50);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(50, 20);
+        ctx.lineTo(50, 80);
+        ctx.stroke();
+
+        ctx.fillText("0", 2, 10);
+        ctx.fillText("25", 45, 10);
+        ctx.fillText("25", 2, 52);
+
+        ctx.fillText("50", 86, 10);
+        ctx.fillText("50", 2, 98);
+
+        ctx.fillText("75", 45, 98);
+        ctx.fillText("75", 86, 52);
+
+        ctx.fillText("100", 82, 98);
+        if(mouse_x && mouse_y){
+            var diffs = [
+                // 0
+                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y, 2)),
+                // 25 top
+                Math.sqrt(Math.pow(mouse_x - 50, 2) + Math.pow(mouse_y, 2)),
+                // 50 top right
+                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y, 2)),
+                // 75 right
+                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y - 50, 2)),
+                // 100
+                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y - 100, 2)),
+                // 75 bottom
+                Math.sqrt(Math.pow(mouse_x - 50, 2) + Math.pow(mouse_y - 100, 2)),
+                // 50 bottom left
+                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y - 100, 2)),
+                // 25 left
+                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y - 50, 2)),
+            ];
+            console.log(diffs);
+            var min = Math.min.apply(null, diffs);
+            var ind = diffs.indexOf(min);
+            switch(ind){
+                case 0:
+                    ctx.beginPath();
+                    ctx.arc(5, 5, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 1:
+                    ctx.beginPath();
+                    ctx.arc(50, 5, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 2:
+                    ctx.beginPath();
+                    ctx.arc(90, 5, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 3:
+                    ctx.beginPath();
+                    ctx.arc(90, 50, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 4:
+                    ctx.beginPath();
+                    ctx.arc(90, 95, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 5:
+                    ctx.beginPath();
+                    ctx.arc(50, 95, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 6:
+                    ctx.beginPath();
+                    ctx.arc(5, 95, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+
+                case 7:
+                    ctx.beginPath();
+                    ctx.arc(5, 50, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    break;
+            }
+        }
+    }
+
     $(function(){
+        canvas = $("#quick_prediction")[0];
+        ctx = canvas.getContext("2d");
 
         $(dataset).each(function(i, el){
             var row = "<tr><td>" + el[0] + "</td><td>" + el[1] + "</td><td>" + el[2] + "</td></tr>";
@@ -206,39 +309,16 @@
             $("#pre_out").val(value);
         });
 
-        var canvas = $("#quick_prediction")[0];
-        var ctx = canvas.getContext("2d");
-
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.moveTo(20, 50);
-        ctx.lineTo(80, 50);
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.moveTo(50, 20);
-        ctx.lineTo(50, 80);
-        ctx.stroke();
-
-        ctx.fillText("0", 2, 10);
-        ctx.fillText("25", 45, 10);
-        ctx.fillText("25", 2, 52);
-
-        ctx.fillText("50", 86, 10);
-        ctx.fillText("50", 2, 98);
-
-        ctx.fillText("75", 45, 98);
-        ctx.fillText("75", 86, 52);
-
-        ctx.fillText("100", 82, 98);
+        canvasRedraw();
 
         $("#quick_prediction").on({
             "mousemove": function(e){
                 var pos = getMousePos(canvas, e);
-                console.log(pos);
+
                 $("#pre_1").val(pos.x);
                 $("#pre_2").val(pos.y);
                 $("#predict_b").click();
+                canvasRedraw(pos.x, pos.y);
             }
         });
     });
