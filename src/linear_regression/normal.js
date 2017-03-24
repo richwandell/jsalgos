@@ -38,7 +38,9 @@
         }
     },{
         name: 'Regression Line',
-        data: real_numbers.map(linreg),
+        data: real_numbers.map(function(n, i){
+            return [i, linreg(n)];
+        }),
         lineWidth: 1,
         type: "spline",
         color: 'steelblue',
