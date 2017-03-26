@@ -125,7 +125,7 @@ class Main{
 
             case 'DRAW_COST':
                 this.drawCost(e.data.objectName, e.data.batchNum, e.data.costHistory);
-                $("#epoc_number" + e.data.batchNum).html("Convergence in " + e.data.epocNum + " epocs!");
+                $("#epoc_number" + e.data.batchNum).html("Convergence in <b>" + e.data.epocNum + "</b> epocs!");
                 break;
         }
     }
@@ -170,6 +170,7 @@ class Main{
         const [rn1, m1, rn2, m2] = this.makeDatasets();
 
         $(() => {
+            window.gistAsync();
             const r1 = Math.round(Math.random() * (m1.length - 1));
             const r2 = Math.round(Math.random() * (m2.length - 1));
             const startY1 = m1[r1];

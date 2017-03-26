@@ -4,6 +4,11 @@ module.exports = function (grunt) {
         copy: {
             dev: {
                 files: [{
+                    cwd: 'node_modules/gist-async/js/',
+                    src: 'gist-async.min.js',
+                    dest: 'dist/scripts/',
+                    expand: true
+                },{
                     cwd: 'node_modules/papaparse/',
                     src: 'papaparse.min.js',
                     dest: 'dist/scripts/',

@@ -24,5 +24,8 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
     "babel-loader": "^6.3.2"
+  },
+  "dependencies": {
+    "gist-async": "^2.0.2"
   }
 }

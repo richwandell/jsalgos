@@ -1,6 +1,7 @@
 <!Doctype html>
 
 <head>
+    <script src="../../scripts/gist-async.min.js"></script>
     <script src="../../scripts/jquery.min.js"></script>
     <script src="../../scripts/highcharts/highcharts.js"></script>
     <script src="app.js"></script>
@@ -11,6 +12,9 @@
         .hc_table{
             width: 100%;
         }
+        .hc_cont{
+            height: 300px;
+        }
     </style>
 </head>
 
@@ -19,7 +23,7 @@
 <table class="hc_table">
     <tr>
         <td colspan="2">
-            <h1>Linear Regression using Batch Gradient Descent</h1>
+            <h2>Linear Regression using Batch Gradient Descent</h2>
         </td>
     </tr>
     <tr>
@@ -27,19 +31,19 @@
             <div>Linear Regression 1, increasing Y value 0 - 50 with increasing noise level
                 Noise level is +- 50% of the original Y value
             </div>
-            <div id="hc_container0"></div>
+            <div id="hc_container0" class="hc_cont"></div>
             <div id="epoc_number0"></div>
         </td>
         <td width="50%">
             <div>Linear Regression 2, static number 50 with static noise level +- 25
             </div>
-            <div id="hc_container1"></div>
+            <div id="hc_container1" class="hc_cont"></div>
             <div id="epoc_number1"></div>
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            <h1>Linear Regression using Stochastic Gradient Descent</h1>
+            <h2>Linear Regression using Stochastic Gradient Descent</h2>
         </td>
     </tr>
     <tr>
@@ -47,30 +51,30 @@
             <div>Linear Regression 3, increasing Y value 0 - 50 with increasing noise level
                 Noise level is +- 50% of the original Y value
             </div>
-            <div id="hc_container2"></div>
+            <div id="hc_container2" class="hc_cont"></div>
             <div id="epoc_number2"></div>
         </td>
         <td width="50%">
             <div>Linear Regression 4, static number 50 with static noise level +- 25
             </div>
-            <div id="hc_container3"></div>
+            <div id="hc_container3" class="hc_cont"></div>
             <div id="epoc_number3"></div>
         </td>
     </tr>
     <tr>
         <td>
-            <div id="hc_container_error0"></div>
+            <div id="hc_container_error0" class="hc_cont"></div>
         </td>
         <td>
-            <div id="hc_container_error1"></div>
+            <div id="hc_container_error1" class="hc_cont"></div>
         </td>
     </tr>
     <tr>
         <td>
-            <div id="hc_container_error2"></div>
+            <div id="hc_container_error2" class="hc_cont"></div>
         </td>
         <td>
-            <div id="hc_container_error3"></div>
+            <div id="hc_container_error3" class="hc_cont"></div>
         </td>
     </tr>
 </table>
@@ -80,11 +84,13 @@
     <tr>
         <td width="50%">
             <div>Batch Gradient Descent - Learning Rate = 0.001</div>
-            <script src="https://gist.github.com/richwandell/d42397433ff2e4f90e9d6a8c39468253.js"></script>
+            <div data-gist="d42397433ff2e4f90e9d6a8c39468253"></div>
+            <!--<script src="https://gist.github.com/richwandell/d42397433ff2e4f90e9d6a8c39468253.js" async></script>-->
         </td>
         <td width="50%">
             <div>Stochastic Gradient Descent - Learning Rate = 0.02</div>
-            <script src="https://gist.github.com/richwandell/d8fce67efd454e69b948c42821c85586.js"></script>
+            <div data-gist="d8fce67efd454e69b948c42821c85586"></div>
+            <!--<script src="https://gist.github.com/richwandell/d8fce67efd454e69b948c42821c85586.js" async></script>-->
         </td>
     </tr>
 </table>
