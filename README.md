@@ -2,10 +2,10 @@
 Just a playground for algorithms
 
 ## Normal Linear Regression
-https://richwandell.github.io/jsalgos/dist/linear_regression/normal.html
+https://richwandell.github.io/jsalgos/dist/linear_regression/nor/test.html
 
-## Gradient Descent Linear Regression
-https://richwandell.github.io/jsalgos/dist/linear_regression/univariate_lr_gradient_descent.html
+## Batch Gradient Descent VS Stochastic Gradient Descent Linear Regression
+https://richwandell.github.io/jsalgos/dist/linear_regression/bgdVsgd/test.html
 
 ## Kalman Filter
 https://richwandell.github.io/jsalgos/dist/kalman_filter/test.html

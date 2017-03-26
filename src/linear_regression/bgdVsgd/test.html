@@ -1,0 +1,92 @@
+<!Doctype html>
+
+<head>
+    <script src="../../scripts/jquery.min.js"></script>
+    <script src="../../scripts/highcharts/highcharts.js"></script>
+    <script src="app.js"></script>
+    <style>
+        #bgd_img{
+            width: 223px;
+        }
+        .hc_table{
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<table class="hc_table">
+    <tr>
+        <td colspan="2">
+            <h1>Linear Regression using Batch Gradient Descent</h1>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <div>Linear Regression 1, increasing Y value 0 - 50 with increasing noise level
+                Noise level is +- 50% of the original Y value
+            </div>
+            <div id="hc_container0"></div>
+            <div id="epoc_number0"></div>
+        </td>
+        <td width="50%">
+            <div>Linear Regression 2, static number 50 with static noise level +- 25
+            </div>
+            <div id="hc_container1"></div>
+            <div id="epoc_number1"></div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <h1>Linear Regression using Stochastic Gradient Descent</h1>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%">
+            <div>Linear Regression 3, increasing Y value 0 - 50 with increasing noise level
+                Noise level is +- 50% of the original Y value
+            </div>
+            <div id="hc_container2"></div>
+            <div id="epoc_number2"></div>
+        </td>
+        <td width="50%">
+            <div>Linear Regression 4, static number 50 with static noise level +- 25
+            </div>
+            <div id="hc_container3"></div>
+            <div id="epoc_number3"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="hc_container_error0"></div>
+        </td>
+        <td>
+            <div id="hc_container_error1"></div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="hc_container_error2"></div>
+        </td>
+        <td>
+            <div id="hc_container_error3"></div>
+        </td>
+    </tr>
+</table>
+
+<img id="bgd_img" src="linear_regression_gradient1.png" />
+<table>
+    <tr>
+        <td width="50%">
+            <div>Batch Gradient Descent</div>
+            <script src="https://gist.github.com/richwandell/d42397433ff2e4f90e9d6a8c39468253.js"></script>
+        </td>
+        <td width="50%">
+            <div>Stochastic Gradient Descent</div>
+            <script src="https://gist.github.com/richwandell/d8fce67efd454e69b948c42821c85586.js"></script>
+        </td>
+    </tr>
+</table>
+
+</body>

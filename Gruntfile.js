@@ -35,7 +35,7 @@ module.exports = function (grunt) {
                     expand: true
                 }, {
                     cwd: 'src/',
-                    src: ['*', '**'],
+                    src: ['*.js', '**'],
                     dest: 'dist/',
                     expand: true
                 }]
@@ -44,11 +44,60 @@ module.exports = function (grunt) {
         watch: {
             vendor: {
                 files: ['src/**/*.*'],
-                tasks: ['copy:dev']
+                tasks: ['webpack', 'copy:dev']
+            }
+        },
+        webpack: {
+            linear_regression:  {
+                entry: [
+                    './src/linear_regression/bgdVsgd/Main.es6'
+                ],
+                output: {
+                    filename: './dist/linear_regression/bgdVsgd/app.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map'
+            },
+            worker: {
+                entry: [
+                    './src/linear_regression/bgdVsgd/Worker.es6'
+                ],
+                output: {
+                    filename: './dist/linear_regression/bgdVsgd/Worker.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map'
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-webpack');
 };
