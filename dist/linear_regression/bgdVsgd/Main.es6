@@ -61,6 +61,7 @@ class Main{
 
     createWorkers(num, measurements, workerTypes, realNumbers, startYs){
         this.charts = [];
+        this.workers = [];
         for(let i = 0; i < num; i++) {
             this.charts.push(new Highcharts.Chart({
                 chart: {
@@ -99,9 +100,10 @@ class Main{
                     }
                 }
             }));
-
-            this.workers = [];
             let w = new Worker("Worker.js");
+            w.onmessage = (e) => {
+                this.receivedWorkerMessage(e);
+            };
             w.postMessage({
                 action: 'SET_WORKER_VARS',
                 batchNum: i,
@@ -110,9 +112,6 @@ class Main{
                 realNumbers: realNumbers[i],
                 startY: startYs[i]
             });
-            w.onmessage = (e) => {
-                this.receivedWorkerMessage(e);
-            };
             this.workers.push(w);
         }
     }
