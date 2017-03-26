@@ -153,7 +153,8 @@
                 data: clusters[x].sort(function(a, b){
                     return a[0] - b[0];
                 }),
-                lineWidth : 0,
+                lineWidth : 1,
+                type: "spline",
                 marker : {
                     enabled : true,
                     radius : 3,
@@ -192,7 +193,8 @@
                 data: clusters[x].sort(function(a, b){
                     return a[0] - b[0];
                 }),
-                lineWidth : 0,
+                lineWidth : 1,
+                type: "spline",
                 marker : {
                     enabled : true,
                     radius : 3,
