@@ -1,5 +1,7 @@
 # jsalgos
-Just a playground for algorithms
+Just a playground for algorithms. 
+Some of the demo's in this repo rely on Webworkers to offload the computation to multiple 
+ CPU cores.
 
 ## Normal Linear Regression
 https://richwandell.github.io/jsalgos/dist/linear_regression/nor/test.html

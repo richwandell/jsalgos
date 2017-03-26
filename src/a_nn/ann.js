@@ -256,9 +256,7 @@
                 var iterations = e.data.iterations;
                 var inputLayerSize = e.data.inputLayerSize;
                 var hiddenLayerSize = e.data.hiddenLayerSize;
-                var rateChanges = e.data.rateChanges;
                 drawCostChart(cost);
-                drawRateChange(rateChanges);
                 drawTree(params, inputLayerSize, hiddenLayerSize);
                 $("#compute").click();
                 $("#number_of_iterations").html("Number of Iterations: " + iterations);

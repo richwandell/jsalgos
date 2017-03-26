@@ -150,66 +150,31 @@ function NeuralNetwork(){
 function Trainer(N){
     this.N = N;
 
-    this.costFunctionWrapper = function(params, X, y){
-        this.N.setParams(params);
-        var cost = this.N.costFunction(X, y);
-        var grad = this.N.computeGradients(X, y);
-        return [cost, grad];
-    };
-
     this.train = function(X, y){
-        this.X = X;
-        this.y = y;
-
-        var params0 = this.N.getParams();
-        var cg = this.costFunctionWrapper(params0, this.X, this.y);
-
-        var cost = cg[0], grad = cg[1], params = params0;
-
-        var maxdiff = 0.001;
-        var same = 0;
-        var lastparams = params;
+        var params = this.N.getParams();
         var iteration = 0;
         var all_cost = [];
-        var learning_rate = 4;
-        var going_up = 0;
-        var rate_changes = [[1, learning_rate]];
-        while(cost[0] > maxdiff){
-            cg = this.costFunctionWrapper(params, this.X, this.y);
+        var learning_rate = 1;
+        var pcost = Infinity;
+        var cost = [Infinity], grad;
+        do{
+            pcost = cost;
 
-            grad = cg[1];
+            grad = this.N.computeGradients(X, y);
+
             var right = math.dotMultiply(learning_rate, grad);
             params = math.subtract(params, right).map(function(el){
                 return isNaN(el) ? 0 : el;
             });
 
-            lastparams = params;
-            var newcost = cg[0];
-            if(newcost[0] == cost[0]) {
-                same++;
-            }else if(newcost[0] > cost[0]){
-                going_up++;
-                same = 0;
-            }else{
-                going_up = 0;
-                same = 0;
-            }
-            if(same >= 100 && learning_rate != 0.5){
-                rate_changes.push([iteration, 0.5]);
-                learning_rate = 0.5;
-            }
-            if(going_up > 30 && learning_rate != 4){
-                rate_changes.push([iteration, 4]);
-                learning_rate = 4;
-                going_up = 0;
-            }
-            cost = cg[0];
+            this.N.setParams(params);
+
+            cost = this.N.costFunction(X, y);
             all_cost.push([iteration, cost[0]]);
             iteration++;
-        }
+        }while(cost[0] > 0.0001);
         this.allCost = all_cost;
         this.iterations = iteration;
-        this.rateChanges = rate_changes;
     };
 
     this.getAllCost = function(){
@@ -218,10 +183,6 @@ function Trainer(N){
 
     this.getIterations = function(){
         return this.iterations;
-    };
-
-    this.getRateChanges = function(){
-        return this.rateChanges;
     };
 }
 
@@ -243,8 +204,7 @@ onmessage = function(e) {
                 cost: trainer.getAllCost(),
                 iterations: trainer.getIterations(),
                 inputLayerSize: network.inputLayerSize,
-                hiddenLayerSize: network.hiddenLayerSize,
-                rateChanges: trainer.getRateChanges()
+                hiddenLayerSize: network.hiddenLayerSize
             });
             break;
 
