@@ -4,6 +4,7 @@ class Stochastic extends Regressor {
 
     constructor(rn, m, batchNum){
         super(rn, m, batchNum, "Stochastic");
+        this.a = 0.02;
     }
 
     shuffle(data){

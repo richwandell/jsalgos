@@ -4,6 +4,7 @@ class Batch extends Regressor {
 
     constructor(rn, m, batchNum){
         super(rn, m, batchNum, "Batch");
+        this.a = 0.001;
     }
 
     epoch(data){
