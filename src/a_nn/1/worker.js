@@ -1,4 +1,4 @@
-importScripts('../scripts/math.js');
+importScripts('../../scripts/math.js');
 
 function NeuralNetwork(){
     this.inputLayerSize = 2;

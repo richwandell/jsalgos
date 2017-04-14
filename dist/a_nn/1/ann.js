@@ -3,14 +3,14 @@
     var worker = new Worker('worker.js');
 
     var input_layer = [
-        {name: 'Thinking...', color: 'steelblue'},
-        {name: 'Thinking...', color: 'steelblue'}
+        {name: 'n1', color: 'steelblue'},
+        {name: 'n2', color: 'steelblue'}
     ];
 
     var hidden_layer = [
-        {name: 'Thinking...', color: 'palevioletred'},
-        {name: 'Thinking...', color: 'palevioletred', children: input_layer},
-        {name: 'Thinking...', color: 'palevioletred'}
+        {name: 'n3', color: 'palevioletred'},
+        {name: 'n4', color: 'palevioletred', children: input_layer},
+        {name: 'n5', color: 'palevioletred'}
     ];
 
     var output = {
@@ -26,13 +26,17 @@
         [1, 12]
     ];
 
+    var weights = Array.apply(null, {length: 9}).map(function(){
+        return "";
+    });
+
     var trainingAnswers = [[75], [82], [93], [10]];
 
     var tmax = math.max(trainingData);
     var X = math.dotDivide(trainingData, tmax);
     var y = math.dotDivide(trainingAnswers, 100);
 
-    function drawD3tree(treeData){
+    function drawD3tree(treeData, params){
         d3.select("svg").remove();
 
         var canvas = d3.select("#d3_container").append("svg")
@@ -47,6 +51,7 @@
         var nodes = tree.nodes(treeData);
         var links = tree.links(nodes);
 
+        var start = links.length -2;
         var two = links.slice(-2);
 
         two.forEach(function(l){
@@ -87,24 +92,56 @@
                 return [-d.y + 400, d.x];
             });
 
-        canvas.selectAll(".link")
+        var link = canvas.selectAll(".link")
             .data(links)
             .enter()
-            .append("path")
+            .append("g")
+            .attr("class", "link");
+
+        link.append("path")
             .attr("class", "link")
             .attr("fill", "none")
             .attr("stroke", "black")
             .attr("d", diagonal);
+
+        link.append("text")
+            .attr("font-family", "Arial, Helvetica, sans-serif")
+            .attr("fill", "Black")
+            .style("font", "normal 12px Arial")
+            .text(function(d){
+                if(d.source.name === "n1" && d.target.name === "n3") return weights[0];
+                if(d.source.name === "n4" && d.target.name === "n1") return weights[1];
+                if(d.source.name === "n4" && d.target.name === "n2") return weights[2];
+                if(d.source.name === "n1" && d.target.name === "n5") return weights[3];
+                if(d.source.name === "n2" && d.target.name === "n3") return weights[4];
+                if(d.source.name === "n2" && d.target.name === "n5") return weights[5];
+
+
+                if(d.target.name === "n3") return weights[6];
+                if(d.target.name === "n4") return weights[7];
+                if(d.target.name === "n5") return weights[8];
+            })
+            .attr("transform", function(d){
+                var x = (((-d.target.y + 400) + (-d.source.y + 400)) / 2) - 70;
+                var y = (d.target.x + d.source.x) / 2;
+
+                if (d.source.name === "n4" && d.target.name === "n1") {
+                    y -= 30;
+                }
+
+                if (d.source.name === "n4" && d.target.name === "n2") {
+                    y += 30;
+                }
+
+                return "translate(" + x + "," + y + ")";
+            });
     }
 
     function drawTree(params, inputLayerSize, hiddenLayerSize){
-        for(var i = 0; i < inputLayerSize; i++){
-            input_layer[i].name = "Input: " + params[i];
-        }
+        weights = params;
 
-        for(var i = 0; i < hiddenLayerSize; i++){
-            hidden_layer[i].name = "Hidden: " + params[i + inputLayerSize];
-        }
+        console.log(weights);
+
         drawD3tree(output);
     }
 

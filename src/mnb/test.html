@@ -1,19 +1,25 @@
 <!Doctype html>
 
 <head>
-    <script src="../scripts/jquery.min.js"></script>
-    <script src="../scripts/papaparse.min.js"></script>
-    <script src="mnb.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.1.0/material.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.13/css/dataTables.material.min.css" />
     <style>
-        #reset_particles{
-            position: absolute;
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 0px;
+        }
+
+        .mdl-data-table td, .mdl-data-table th {
+            height: auto;
         }
     </style>
 </head>
 
 <body>
-
-<button type="button" id="reset_particles">Reset Particles</button>
-<canvas id="a_canvas"></canvas>
-
+    <div id="react_container"></div>
 </body>
+
+<script src="../scripts/jquery.min.js"></script>
+<script src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.13/js/dataTables.material.min.js"></script>
+<script src="mnb.js"></script>

@@ -1,16 +1,16 @@
+var webpack = require('webpack');
+
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
+        clean: {
+            dist: ['dist']
+        },
         copy: {
             dev: {
                 files: [{
                     cwd: 'node_modules/gist-async/js/',
                     src: 'gist-async.min.js',
-                    dest: 'dist/scripts/',
-                    expand: true
-                },{
-                    cwd: 'node_modules/papaparse/',
-                    src: 'papaparse.min.js',
                     dest: 'dist/scripts/',
                     expand: true
                 },{
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         watch: {
             vendor: {
                 files: ['src/**/*.*'],
-                tasks: ['webpack', 'copy:dev']
+                tasks: ['clean', 'webpack', 'copy:dev']
             }
         },
         webpack: {
@@ -74,7 +74,18 @@ module.exports = function (grunt) {
                 },
                 progress: false,
                 inline: false,
-                devtool: 'source-map'
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false,
+                        },
+                        output: {
+                            comments: false,
+                        },
+                        sourceMap: true
+                    })
+                ]
             },
             worker: {
                 entry: [
@@ -97,11 +108,45 @@ module.exports = function (grunt) {
                 },
                 progress: false,
                 inline: false,
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false,
+                        },
+                        output: {
+                            comments: false,
+                        },
+                        sourceMap: true
+                    })
+                ]
+            },
+            mnb: {
+                entry: [
+                    './src/mnb/Mnb.jsx'
+                ],
+                output: {
+                    filename: './dist/mnb/mnb.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
                 devtool: 'source-map'
             }
         }
     });
-
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-webpack');
