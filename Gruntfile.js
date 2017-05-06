@@ -4,10 +4,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         clean: {
-            dist: ['dist']
+            dist: ['dist'],
+            knn: ['dist/k_nearest_neighbor'],
+            logistic_regression: ['dist/logistic_regression'],
+            linear_regression: ['dist/linear_regression']
         },
         copy: {
-            dev: {
+            dependencies: {
                 files: [{
                     cwd: 'node_modules/gist-async/js/',
                     src: 'gist-async.min.js',
@@ -38,18 +41,52 @@ module.exports = function (grunt) {
                     src: 'math.js',
                     dest: 'dist/scripts/',
                     expand: true
+                }]
+            },
+            knn: {
+                files: [{
+                    cwd: 'src/k_nearest_neighbor',
+                    src: ['*.*'],
+                    dest: 'dist/k_nearest_neighbor',
+                    expand: true
+                }]
+            },
+            logistic_regression: {
+                files: [{
+                    cwd: 'src/logistic_regression',
+                    src: ['*.html'],
+                    dest: 'dist/logistic_regression',
+                    expand: true
+                }]
+            },
+            linear_regression: {
+                files: [{
+                    cwd: 'src/linear_regression/bgdVsgd',
+                    src: ['test.html', 'gd.png'],
+                    dest: 'dist/linear_regression/bgdVsgd',
+                    expand: true
                 }, {
-                    cwd: 'src/',
-                    src: ['*.js', '**'],
-                    dest: 'dist/',
+                    cwd: 'src/linear_regression/linear',
+                    src: ['*.*'],
+                    dest: 'dist/linear_regression/linear',
                     expand: true
                 }]
             }
         },
         watch: {
-            vendor: {
-                files: ['src/**/*.*'],
-                tasks: ['clean', 'webpack', 'copy:dev']
+            knn: {
+                files: ['src/k_nearest_neighbor/**/*'],
+                tasks: ['clean:knn', 'copy:knn', 'copy:dependencies']
+            },
+            logistic_regression: {
+                files: ['src/logistic_regression/**/*'],
+                tasks: ['clean:logistic_regression', 'webpack:logistic_regression', 'copy:logistic_regression',
+                    'copy:dependencies']
+            },
+            linear_regression: {
+                files: ['src/linear_regression/**/*'],
+                tasks: ['clean:linear_regression', 'webpack:linear_regression', 'webpack:linear_regression_worker',
+                    'copy:linear_regression', 'copy:dependencies']
             }
         },
         webpack: {
@@ -87,7 +124,7 @@ module.exports = function (grunt) {
                     })
                 ]
             },
-            worker: {
+            linear_regression_worker: {
                 entry: [
                     './src/linear_regression/bgdVsgd/Worker.es6'
                 ],
@@ -143,6 +180,40 @@ module.exports = function (grunt) {
                 progress: false,
                 inline: false,
                 devtool: 'source-map'
+            },
+            logistic_regression:  {
+                entry: [
+                    './src/logistic_regression/Main.es6'
+                ],
+                output: {
+                    filename: './dist/logistic_regression/app.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false,
+                        },
+                        output: {
+                            comments: false,
+                        },
+                        sourceMap: true
+                    })
+                ]
             }
         }
     });

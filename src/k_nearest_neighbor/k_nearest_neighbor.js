@@ -12,14 +12,8 @@
      *
      * Then we generate input values that are +- 20% of the originally generated number to use as input values.
      */
-    var max_a = 0;
-    var min_a = 0;
-
-    var max_b = 0;
-    var min_b = 0;
-
-    var max_c = 0;
-    var min_c = 0;
+    var max_X = -Infinity;
+    var min_X = Infinity;
 
     var data_length = 100;
 
@@ -42,27 +36,30 @@
         });
 
     var normalized = (function(d){
-        var n = Array.apply(null, {length: data_length})
+        var max_y = -Infinity;
+        var min_y = Infinity;
+
+        var n = Array.apply(null, {length: d.length})
             .map(function(i, index){
                 return [0,0,0];
             });
 
-        var i = 0;
+        var i;
         for(i = 0; i < d.length; i++){
-            if(d[i][0] > max_a) max_a = d[i][0];
-            if(d[i][0] < min_a) min_a = d[i][0];
+            if(d[i][0] > max_X) max_X = d[i][0];
+            if(d[i][0] < min_X) min_X = d[i][0];
 
-            if(d[i][1] > max_b) max_b = d[i][1];
-            if(d[i][1] < min_b) min_b = d[i][1];
+            if(d[i][1] > max_X) max_X = d[i][1];
+            if(d[i][1] < min_X) min_X = d[i][1];
 
-            if(d[i][2] > max_c) max_c = d[i][2];
-            if(d[i][2] < min_c) min_c = d[i][2];
+            if(d[i][2] > max_y) max_y = d[i][2];
+            if(d[i][2] < min_y) min_y = d[i][2];
         }
 
         for(i = 0; i < d.length; i++){
-            n[i][0] = (d[i][0] - min_a) / max_a - min_a;
-            n[i][1] = (d[i][1] - min_b) / max_b - min_b;
-            n[i][2] = d[i][2];
+            n[i][0] = (d[i][0] - min_X) / (max_X - min_X);
+            n[i][1] = (d[i][1] - min_X) / (max_X - min_X);
+            n[i][2] = (d[i][2] - min_y) / (max_y - min_y);
         }
         return n;
     })(dataset);
@@ -73,8 +70,8 @@
 
     function knn(s){
         //Normalize sample
-        var s0 = (s[0] - min_a) / max_a - min_a;
-        var s1 = (s[1] - min_b) / max_b - min_b;
+        var s0 = (s[0] - min_X) / (max_X - min_X);
+        var s1 = (s[1] - min_X) / (max_X - min_X);
 
         //Find nearest neighbors
         var c1 = false;
@@ -97,7 +94,7 @@
                 c2 = [distance, normalized[i][2]];
             }
         }
-        return (c1[1] + c2[1]) / 2;
+        return ((c1[1] + c2[1]) / 2) * 100;
     }
 
     var series = [
