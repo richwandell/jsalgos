@@ -17,14 +17,18 @@
         return Math.random() * (max - min) + min;
     }
 
-    function update(real_number, length){
-        cest, pest = 0, mea, kg, eest = 1, emea = 1;
-
-        real_numbers = Array.apply(null, {length: length}).map(function(i, current){
-            return real_number;
-        });
+    function makeSeries(real_number, length){
+        real_numbers = Array
+            .apply(null, {length: length})
+            .map(function(i, current){
+                return real_number;
+            });
 
         dirty_numbers = Array.apply(null, {length: length}).map(fakeNumber);
+
+        eest = 1;
+        emea = 1;
+        pest = dirty_numbers[0];
 
         kalman_prediction = dirty_numbers.map(kalman);
         $("#real").val(real_number);
@@ -58,7 +62,7 @@
     }
 
     $(function(){
-        var series = update(50, 50);
+        var series = makeSeries(50, 50);
         console.log(real_numbers, dirty_numbers, kalman_prediction);
         $('#hc_container').highcharts({
             title: {
@@ -96,7 +100,7 @@
             var chart = $('#hc_container').highcharts();
             if(chart.series.length == 0){
                 real_numbers = [real];
-                var series = update(real_numbers[0], real_numbers.length);
+                var series = makeSeries(real_numbers[0], real_numbers.length);
                 $(series).each(function(i, s){
                     chart.addSeries(s);
                 });
