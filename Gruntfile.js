@@ -63,7 +63,7 @@ module.exports = function (grunt) {
             logistic_regression: {
                 files: [{
                     cwd: 'src/logistic_regression',
-                    src: ['*.html'],
+                    src: ['*.html', '*.png'],
                     dest: 'dist/logistic_regression',
                     expand: true
                 }]
@@ -75,9 +75,9 @@ module.exports = function (grunt) {
                     dest: 'dist/linear_regression/bgdVsgd',
                     expand: true
                 }, {
-                    cwd: 'src/linear_regression/linear',
+                    cwd: 'src/linear_regression/ols',
                     src: ['*.*'],
-                    dest: 'dist/linear_regression/linear',
+                    dest: 'dist/linear_regression/ols',
                     expand: true
                 }]
             }
