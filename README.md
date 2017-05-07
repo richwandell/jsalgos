@@ -3,7 +3,7 @@ Just a playground for algorithms.
 Some of the demo's in this repo rely on Webworkers to offload the computation to multiple 
  CPU cores.
 
-## Simple Linear Regression
+## Least Squares Linear Regression
 https://richwandell.github.io/jsalgos/dist/linear_regression/ols/test.html
 
 ## Batch Gradient Descent VS Stochastic Gradient Descent Linear Regression
