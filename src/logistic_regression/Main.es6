@@ -145,8 +145,8 @@ export default class Main  {
         let data = Array.apply(null, {length: dy.length})
             .map(function (i, index){
                 const yindex = dy[index];
-                const min = yindex - .2;
-                const max = yindex + .2;
+                const min = yindex - .5;
+                const max = yindex + .5;
 
                 //Return a data row that represents the [input]
                 return [index % dataLength, Math.random() * (max - min) + min, Math.round(yindex)];
@@ -183,7 +183,11 @@ export default class Main  {
 
     draw() {
         let creditScore = this.nX.map((n, i) => {
-            return [this.X[i][0], n]
+            return {
+                x: this.X[i][0],
+                y: n,
+                approved: this.y[i]
+            }
         });
         let series = [{
             name: 'Credit Score',
@@ -196,8 +200,14 @@ export default class Main  {
                 radius : 3
             },
             tooltip: {
-                formatter: function () {
-                    return false;
+                pointFormatter: function () {
+                    let y = that.creditScoreDisplay(this.y);
+                    let approved = this.approved === 1 ? "Yes" : "No";
+                    return `<span style="color:{point.color}"></span> 
+                        Credit Score: <b>${y}</b>
+                        <br/>
+                        Approved: <b>${approved}</b>
+                    `;
                 }
             }
         },{
@@ -236,7 +246,15 @@ export default class Main  {
                     color: '#808080'
                 }],
                 max: 1,
-                min: 0
+                min: 0,
+                labels: {
+                    formatter: function() {
+                        return that.creditScoreDisplay(this.value);
+                    }
+                },
+                title: {
+                    text: "Credit Score"
+                }
             },
             legend: {
                 layout: 'vertical',
