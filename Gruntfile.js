@@ -8,7 +8,8 @@ module.exports = function (grunt) {
             knn: ['dist/k_nearest_neighbor'],
             logistic_regression: ['dist/logistic_regression'],
             linear_regression: ['dist/linear_regression'],
-            kalman: ['dist/kalman_filter']
+            kalman: ['dist/kalman_filter'],
+            ann: ['dist/a_nn']
         },
         copy: {
             dependencies: {
@@ -41,6 +42,14 @@ module.exports = function (grunt) {
                     cwd: 'node_modules/mathjs/dist/',
                     src: 'math.js',
                     dest: 'dist/scripts/',
+                    expand: true
+                }]
+            },
+            ann: {
+                files: [{
+                    cwd: 'src/a_nn',
+                    src: ['**/*'],
+                    dest: 'dist/a_nn',
                     expand: true
                 }]
             },
@@ -100,6 +109,10 @@ module.exports = function (grunt) {
             kalman_filter: {
                 files: ['src/kalman_filter/**/*'],
                 tasks: ['clean:kalman', 'copy:kalman', 'copy:dependencies']
+            },
+            ann: {
+                files: ['src/a_nn/**/*'],
+                tasks: ['clean:ann', 'copy:ann', 'copy:dependencies']
             }
         },
         webpack: {

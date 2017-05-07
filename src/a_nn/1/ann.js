@@ -242,7 +242,9 @@
                     value: 0,
                     width: 1,
                     color: '#808080'
-                }]
+                }],
+                max: 1,
+                min: 0
             },
             xAxis: {
                 title: {
