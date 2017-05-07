@@ -155,23 +155,18 @@
 
         ctx.fillText("100", 82, 98);
         if(mouse_x && mouse_y){
+            var prediction = knn([mouse_x, mouse_y]);
             var diffs = [
                 // 0
-                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y, 2)),
+                Math.abs(0 - prediction),
                 // 25 top
-                Math.sqrt(Math.pow(mouse_x - 50, 2) + Math.pow(mouse_y, 2)),
+                Math.abs(25 - prediction),
                 // 50 top right
-                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y, 2)),
+                Math.abs(50 - prediction),
                 // 75 right
-                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y - 50, 2)),
+                Math.abs(75 - prediction),
                 // 100
-                Math.sqrt(Math.pow(mouse_x - 100, 2) + Math.pow(mouse_y - 100, 2)),
-                // 75 bottom
-                Math.sqrt(Math.pow(mouse_x - 50, 2) + Math.pow(mouse_y - 100, 2)),
-                // 50 bottom left
-                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y - 100, 2)),
-                // 25 left
-                Math.sqrt(Math.pow(mouse_x, 2) + Math.pow(mouse_y - 50, 2)),
+                Math.abs(100 - prediction)
             ];
             console.log(diffs);
             var min = Math.min.apply(null, diffs);
@@ -187,11 +182,17 @@
                     ctx.beginPath();
                     ctx.arc(50, 5, 10, 0, 2*Math.PI);
                     ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(5, 50, 10, 0, 2*Math.PI);
+                    ctx.stroke();
                     break;
 
                 case 2:
                     ctx.beginPath();
                     ctx.arc(90, 5, 10, 0, 2*Math.PI);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(5, 95, 10, 0, 2*Math.PI);
                     ctx.stroke();
                     break;
 
@@ -199,29 +200,14 @@
                     ctx.beginPath();
                     ctx.arc(90, 50, 10, 0, 2*Math.PI);
                     ctx.stroke();
-                    break;
-
-                case 4:
-                    ctx.beginPath();
-                    ctx.arc(90, 95, 10, 0, 2*Math.PI);
-                    ctx.stroke();
-                    break;
-
-                case 5:
                     ctx.beginPath();
                     ctx.arc(50, 95, 10, 0, 2*Math.PI);
                     ctx.stroke();
                     break;
 
-                case 6:
+                case 4:
                     ctx.beginPath();
-                    ctx.arc(5, 95, 10, 0, 2*Math.PI);
-                    ctx.stroke();
-                    break;
-
-                case 7:
-                    ctx.beginPath();
-                    ctx.arc(5, 50, 10, 0, 2*Math.PI);
+                    ctx.arc(90, 95, 10, 0, 2*Math.PI);
                     ctx.stroke();
                     break;
             }
