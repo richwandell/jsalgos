@@ -11,19 +11,19 @@ class Batch extends Regressor {
         //keep track of how many times we go through the dataset
         this.ni++;
         const N = data.length;
-        let bGrad = 0;
-        let mGrad = 0;
+
+        let bDiff = 0;
+        let mDiff = 0;
         for(let i = 0; i < N; i ++){
             const x = data[i][0];
             const y = data[i][1];
-            const diff = (y - this.line(x));
-
-            //calculate the gradients
-            bGrad += diff;
-            mGrad += diff * x;
+            let diff = this.line(x) - y;
+            bDiff += diff;
+            mDiff += diff * x;
         }
-        this.b = this.b + (this.a * bGrad);
-        this.m = this.m - (-(2/N) * (this.a * mGrad));
+        mDiff = (2 / N) * mDiff;
+        this.b = this.b - (this.a * bDiff);
+        this.m = this.m - (this.a * mDiff);
         this.pc = this.c;
         //compute the mean squared error
         this.c = this.cost(this.training_examples);

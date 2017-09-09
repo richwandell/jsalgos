@@ -18,8 +18,7 @@ class Regressor{
         this.setup();
     }
 
-    start(y){
-        this.b = y;
+    start(){
         this.epoch(this.training_examples);
     }
 
@@ -32,9 +31,9 @@ class Regressor{
         for (i = 0; i < points.length; i++) {
             x = points[i][0];
             y = points[i][1];
-            error += Math.pow((y - this.line(x)), 2);
+            error += Math.pow((this.line(x) - y), 2);
         }
-        return error / points.length;
+        return (1 / (2 *points.length)) * error;
     }
 
     getLineData(){
@@ -109,7 +108,12 @@ class Regressor{
          * The slope
          * @type {number}
          */
-        this.m = 0;
+        this.m = 1;
+        /**
+         * The intercept
+         * @type {number}
+         */
+        this.b = 1;
         /**
          * The timer
          * @type {null}

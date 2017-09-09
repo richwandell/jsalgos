@@ -18,7 +18,7 @@ class Worker{
                         this.worker = new Stochastic(e.data.measurements, e.data.realNumbers, e.data.batchNum);
                         break;
                 }
-                this.worker.start(e.data.startY);
+                this.worker.start();
                 break;
         }
     }
