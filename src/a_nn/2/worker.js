@@ -13,8 +13,6 @@ function NeuralNetwork(){
             return row.map(function(el){  return Math.random(); });
         });
 
-    this.lambda = 0.001;
-
     this.forward = function(X){
         this.Z2 = math.multiply(X, this.W1);
         this.Z2 = math.add(1, this.Z2);
@@ -38,26 +36,17 @@ function NeuralNetwork(){
     };
 
     this.costFunction = function(X, y){
-        var a = 1 / (2 * X.length);
-
         this.yHat = this.forward(X);
         var ymyhat = math.subtract(y, this.yHat);
         var squared = math.square(ymyhat);
         if(squared.constructor != Array){
             squared = squared._data;
         }
-        var b = squared.reduce(function(a, b){
+        var summed = squared.reduce(function(a, b){
             return math.add(a, b);
         });
 
-
-        var theta = this.getParams();
-        var sumSquareTheta = math.sum(math.square(theta));
-
-        var c = math.multiply(this.lambda, sumSquareTheta);
-
-        var J = math.multiply(a, b);
-
+        var J = math.multiply(0.5, summed);
         return J;
     };
 
@@ -98,12 +87,7 @@ function NeuralNetwork(){
             dJdW1 = math.multiply(xtrans, delta2);
         }
 
-        var lambdaOverM = this.lambda / X.length;
-        var lambdaOverMPlusDjDw1 = math.add(dJdW1, lambdaOverM);
-        var lambdaOverMPlusDjDw2 = math.add(dJdW2, lambdaOverM);
-
-
-        return [lambdaOverMPlusDjDw1, lambdaOverMPlusDjDw2];
+        return [dJdW1, dJdW2];
     };
 
     this.setParams = function(params){
@@ -173,7 +157,7 @@ function Trainer(N){
         var params = this.N.getParams();
         var iteration = 0;
         var all_cost = [];
-        var alpha = 0.02;
+        var alpha = 0.001;
         var pcost = Infinity;
         var cost = [Infinity], grad;
         var momentum = 0.9;
@@ -198,8 +182,7 @@ function Trainer(N){
             cost = this.N.costFunction(X, y);
             all_cost.push([iteration, cost[0]]);
             iteration++;
-            var costDiff = Math.abs(cost[0] - pcost[0]);
-        }while(costDiff > 0.000000000001);
+        }while(Math.abs(cost[0] - pcost[0]) > 0.0000000001);
         this.allCost = all_cost;
         this.iterations = iteration;
     };

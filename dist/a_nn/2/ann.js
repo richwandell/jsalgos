@@ -19,25 +19,16 @@
         children: hidden_layer
     };
 
+    var trainingData = [];
 
 
-    var trainingData = [
-        [3, 5],
-        [5, 1],
-        [10, 2],
-        [1, 12],
-        [1, 10]
-    ];
 
     var weights = Array.apply(null, {length: 9}).map(function(){
         return "";
     });
 
-    var trainingAnswers = [[75], [82], [93], [10], [10]];
 
-    var tmax = math.max(trainingData);
-    var X = math.dotDivide(trainingData, tmax);
-    var y = math.dotDivide(trainingAnswers, 100);
+
 
     function drawD3tree(treeData, params){
         d3.select("svg").remove();
@@ -338,16 +329,28 @@
     });
 
     $(document).ready(function() {
+        $.getJSON("out.json")
+            .done(function(data){
 
-        drawD3tree(output);
+                trainingData = data.slice(
+                var trainingAnswers = [[75], [82], [93], [10]];
 
-        drawDataTable(trainingData, trainingAnswers);
+                var tmax = math.max(trainingData);
+                var X = math.dotDivide(trainingData, tmax);
+                var y = math.dotDivide(trainingAnswers, 100);
 
-        worker.postMessage({
-            action: 'START_TRAINING',
-            X: X,
-            y: y
-        });
+                drawD3tree(output);
+
+                drawDataTable(trainingData, trainingAnswers);
+
+                worker.postMessage({
+                    action: 'START_TRAINING',
+                    X: X,
+                    y: y
+                });
+            });
+
+
     });
 
 

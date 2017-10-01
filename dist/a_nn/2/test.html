@@ -1,0 +1,119 @@
+<!Doctype html>
+
+<head>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="../../scripts/jquery.min.js"></script>
+    <script src="../../scripts/highcharts/highcharts.js"></script>
+    <script src="../../scripts/math.js"></script>
+    <style>
+        .node circle {
+            stroke-width: 3px;
+        }
+
+        .node text { font: 12px sans-serif; }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 2px;
+        }
+
+        .link text {
+            stroke: black;
+            stroke-width: 0px;
+        }
+
+        table.dataTable tbody th, table.dataTable tbody td {
+            padding: 0px;
+        }
+
+        .mdl-data-table td, .mdl-data-table th {
+            height: auto;
+        }
+
+        #d3_container, #guess{
+            display: inline-block;
+        }
+        #d3_container{
+            width: 600px;
+        }
+        #data_table, #right_side{
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 50px;
+        }
+        #predictor{
+            display: block;
+            vertical-align: top;
+            margin-top: 50px;
+        }
+        span.answer{
+            background: lawngreen;
+            border-radius: 20px;
+            padding: 5px;
+        }
+        @media (min-width: 840px) {
+            .mdl-cell {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="d3_container"></div>
+    <div id="right_side">
+        <table id="data_table">
+            <thead>
+                <tr>
+                    <td>Hours of Sleep</td>
+                    <td>Hours of Study</td>
+                    <td>Score on Test</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <div id="predictor">
+            <label>Sleep<input id='sleep' type="number" max="24" min="0" value="3" /></label>
+            <label>Study<input id='study' type="number" max="24" min="0" value="5" /></label>
+            <button id="compute" type="button">Estimate</button>
+        </div>
+        <div id="number_of_iterations"></div>
+    </div>
+    <p>
+        <h1>Artificial Neural Network</h1>
+        <p>When this page is loaded the neural network will be initialized with random weights for each neuron and
+            will begin training itself on the dataset shown in the table. The neural network code is shown in the
+            github gist at the bottom of the page.</p>
+        <p>After training finishes, use the "sleep" and "study" input boxes to input 2 values, click on "estimate"
+        button to have the network make an educated guess about the output. The closest guess will be highlighted
+        in the training data set table. If you choose two numbers that exist in the training data the guess should be
+        accurate. Weights are randomly initialized on page load.</p>
+        <p><b>This demo makes use of WebWorkers to process the neural network training. Please use a modern web browser
+            with support for web workers. </b></p>
+        <p>The network may take 5-10 seconds to converge. If the network does not finish learning within 20-30
+        seconds reload the page and try again.</p>
+
+        <ul>
+            <li>Learning rate: 0.8</li>
+            <li>Maximum error margin: 0.0001</li>
+        </ul>
+
+        <p>
+            Below are 2 charts
+            <ul>
+                <li>Chart 1: <p>This chart represents the output of our cost function at each training iteration.</p></li>
+                <li>Chart 2: <p>This chart uses the network for regression to find an estimate of each possible
+                combination of Sleep and Study hours (0-24).</p></li>
+            </ul>
+        </p>
+    </p>
+
+    <div id="hc_container"></div>
+    <div id="hc_container1"></div>
+    <div id="hc_container2"></div>
+    <script src="https://gist.github.com/richwandell/208ddcb4b7c77b3489caae7a4cf54fc9.js"></script>
+    <script src="ann.js"></script>
+</body>

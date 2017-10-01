@@ -19,18 +19,21 @@
         children: hidden_layer
     };
 
+
+
     var trainingData = [
         [3, 5],
         [5, 1],
         [10, 2],
-        [1, 12]
+        [1, 12],
+        [1, 10]
     ];
 
     var weights = Array.apply(null, {length: 9}).map(function(){
         return "";
     });
 
-    var trainingAnswers = [[75], [82], [93], [10]];
+    var trainingAnswers = [[75], [82], [93], [10], [10]];
 
     var tmax = math.max(trainingData);
     var X = math.dotDivide(trainingData, tmax);

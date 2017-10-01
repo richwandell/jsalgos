@@ -13,10 +13,15 @@ function NeuralNetwork(){
             return row.map(function(el){  return Math.random(); });
         });
 
+    this.lambda = 0.001;
+
     this.forward = function(X){
         this.Z2 = math.multiply(X, this.W1);
+        this.Z2 = math.add(1, this.Z2);
         this.A2 = this.sigmoid(this.Z2);
+        this.A2 = math.add(1, this.A2);
         this.Z3 = math.multiply(this.A2, this.W2);
+        this.Z3 = math.add(1, this.Z3);
         var yHat = this.sigmoid(this.Z3);
         return yHat;
     };
@@ -33,17 +38,26 @@ function NeuralNetwork(){
     };
 
     this.costFunction = function(X, y){
+        var a = 1 / (2 * X.length);
+
         this.yHat = this.forward(X);
         var ymyhat = math.subtract(y, this.yHat);
         var squared = math.square(ymyhat);
         if(squared.constructor != Array){
             squared = squared._data;
         }
-        var summed = squared.reduce(function(a, b){
+        var b = squared.reduce(function(a, b){
             return math.add(a, b);
         });
 
-        var J = math.multiply(0.5, summed);
+
+        var theta = this.getParams();
+        var sumSquareTheta = math.sum(math.square(theta));
+
+        var c = math.multiply(this.lambda, sumSquareTheta);
+
+        var J = math.multiply(a, b);
+
         return J;
     };
 
@@ -84,7 +98,12 @@ function NeuralNetwork(){
             dJdW1 = math.multiply(xtrans, delta2);
         }
 
-        return [dJdW1, dJdW2];
+        var lambdaOverM = this.lambda / X.length;
+        var lambdaOverMPlusDjDw1 = math.add(dJdW1, lambdaOverM);
+        var lambdaOverMPlusDjDw2 = math.add(dJdW2, lambdaOverM);
+
+
+        return [lambdaOverMPlusDjDw1, lambdaOverMPlusDjDw2];
     };
 
     this.setParams = function(params){
@@ -154,25 +173,33 @@ function Trainer(N){
         var params = this.N.getParams();
         var iteration = 0;
         var all_cost = [];
-        var learning_rate = 1;
+        var alpha = 0.02;
         var pcost = Infinity;
         var cost = [Infinity], grad;
+        var momentum = 0.9;
+        var previousVelocity = math.zeros(math.size(params));
+
         do{
             pcost = cost;
 
             grad = this.N.computeGradients(X, y);
+            var currentVelocity = math.multiply(momentum, previousVelocity);
+            var as = math.multiply(alpha, grad);
+            currentVelocity = math.subtract(currentVelocity, as);
 
-            var right = math.dotMultiply(learning_rate, grad);
-            params = math.subtract(params, right).map(function(el){
-                return isNaN(el) ? 0 : el;
-            });
+            params = math.add(params, currentVelocity)
+                .map(function(el){
+                    return isNaN(el) ? 0 : el;
+                });
+            previousVelocity = currentVelocity;
 
             this.N.setParams(params);
 
             cost = this.N.costFunction(X, y);
             all_cost.push([iteration, cost[0]]);
             iteration++;
-        }while(cost[0] > 0.0001);
+            var costDiff = Math.abs(cost[0] - pcost[0]);
+        }while(costDiff > 0.000000000001);
         this.allCost = all_cost;
         this.iterations = iteration;
     };
