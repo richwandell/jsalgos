@@ -56,7 +56,7 @@ module.exports = function (grunt) {
             kalman: {
                 files: [{
                     cwd: 'src/kalman_filter',
-                    src: ['*.*'],
+                    src: ['**/*'],
                     dest: 'dist/kalman_filter',
                     expand: true
                 }]
