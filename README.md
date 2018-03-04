@@ -33,3 +33,6 @@ https://richwandell.github.io/jsalgos/dist/k_means/test.html
 ## Decision Tree
 https://richwandell.github.io/jsalgos/dist/decision_tree/test.html
 
+## Sobel Edge Detection
+https://richwandell.github.io/jsalgos/dist/edge_detection/sobel/test.html
+

@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         clean: {
+            edge_detection: ['dist/edge_detection'],
             dist: ['dist'],
             knn: ['dist/k_nearest_neighbor'],
             logistic_regression: ['dist/logistic_regression'],
@@ -12,6 +13,14 @@ module.exports = function (grunt) {
             ann: ['dist/a_nn']
         },
         copy: {
+            edge_detection: {
+                files: [{
+                    cwd: 'src/edge_detection',
+                    src: ['sobel/test.html', 'sobel/*.jpg'],
+                    dest: 'dist/edge_detection',
+                    expand: true
+                }]
+            },
             dependencies: {
                 files: [{
                     cwd: 'node_modules/gist-async/js/',
@@ -92,6 +101,11 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            edge: {
+                files: ['src/edge_detection/**/*'],
+                tasks: ['clean:edge_detection', 'webpack:edge_detection', 'webpack:edge_detection_worker',
+                    'copy:edge_detection', 'copy:dependencies']
+            },
             knn: {
                 files: ['src/k_nearest_neighbor/**/*'],
                 tasks: ['clean:knn', 'copy:knn', 'copy:dependencies']
@@ -116,6 +130,74 @@ module.exports = function (grunt) {
             }
         },
         webpack: {
+            edge_detection: {
+                entry: [
+                    './src/edge_detection/sobel/Edge.es6'
+                ],
+                output: {
+                    filename: './dist/edge_detection/sobel/edge.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false
+                        },
+                        output: {
+                            comments: false
+                        },
+                        sourceMap: true
+                    })
+                ]
+            },
+            edge_detection_worker: {
+                entry: [
+                    './src/edge_detection/sobel/Worker.es6'
+                ],
+                output: {
+                    filename: './dist/edge_detection/sobel/worker.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false
+                        },
+                        output: {
+                            comments: false
+                        },
+                        sourceMap: true
+                    })
+                ]
+            },
             linear_regression:  {
                 entry: [
                     './src/linear_regression/bgdVsgd/Main.es6'

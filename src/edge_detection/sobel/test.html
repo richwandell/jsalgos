@@ -1,0 +1,51 @@
+<!Doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="../../scripts/jquery.min.js"></script>
+    <script src="../../scripts/highcharts/highcharts.js"></script>
+    <script src="../../scripts/math.js"></script>
+    <script src="edge.js" ></script>
+    <style>
+        table {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <caption>
+            <h1>Sobel Edge Detector</h1>
+        </caption>
+        <tr>
+            <td>
+                <h2>Original Image</h2>
+                <canvas id="canvas1"></canvas>
+            </td>
+            <td>
+                <div id="hc_container1"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>Vertical Edges</h2>
+                <canvas id="canvas2"></canvas>
+            </td>
+            <td>
+                <h2>Horizontal Edges</h2>
+                <canvas id="canvas3"></canvas>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>Combined Edges</h2>
+                <canvas id="canvas4"></canvas>
+            </td>
+            <td>
+                <h2>Combined, threshold >= 100</h2>
+                <canvas id="canvas5"></canvas>
+            </td>
+        </tr>
+    </table>
+</body>
