@@ -1,0 +1,82 @@
+<!Doctype html>
+
+<head>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/math.js"></script>
+    <script src="Project.js"></script>
+
+    <style>
+        #geometry_canvas {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+
+        #rotation {
+            position: fixed;
+            background: white;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            padding: 5px;
+        }
+
+        #rotation ul {
+            display: inline-block;
+            list-style: none;
+            vertical-align: top;
+        }
+
+        #rotation label {
+            width: 87px;
+            display: inline-block;
+        }
+
+        #rotation input {
+            width: 62px;
+        }
+    </style>
+</head>
+
+<body>
+
+<canvas id="geometry_canvas"></canvas>
+<form id="rotation">
+    <ul>
+        <li>
+            <label for="rotationx" >X Rotation</label>
+            <input type="number" id="rotationx" value="5"/>
+        </li>
+        <li>
+            <label for="rotationx" >Y Rotation</label>
+            <input type="number" id="rotationy" value="5"/>
+        </li>
+        <li>
+            <label for="rotationx" >Z Rotation</label>
+            <input type="number" id="rotationz" value="5"/>
+        </li>
+    </ul>
+
+
+    <ul>
+        <li>
+            <label for="boxz">Box Z</label>
+            <input type="number" id="boxz" value="1000" />
+        </li>
+        <li>
+            <label for="focallength">Focal Length</label>
+            <input type="number" id="focallength" value="1000" />
+        </li>
+        <li>
+            <label for="projection">Projection</label>
+            <select id="projection">
+                <option value="o" selected="selected">Orthographic</option>
+                <option value="p">Perspective</option>
+            </select>
+        </li>
+    </ul>
+</form>
+
+</body>

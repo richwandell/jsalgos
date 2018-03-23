@@ -36,3 +36,6 @@ https://richwandell.github.io/jsalgos/dist/decision_tree/test.html
 ## Sobel Edge Detection
 https://richwandell.github.io/jsalgos/dist/edge_detection/sobel/test.html
 
+## Orthographic and Perspective 3D projections
+https://richwandell.github.io/jsalgos/dist/projective_geometry/test.html
+

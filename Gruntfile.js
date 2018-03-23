@@ -10,9 +10,18 @@ module.exports = function (grunt) {
             logistic_regression: ['dist/logistic_regression'],
             linear_regression: ['dist/linear_regression'],
             kalman: ['dist/kalman_filter'],
-            ann: ['dist/a_nn']
+            ann: ['dist/a_nn'],
+            projective_geometry: ['dist/projective_geometry']
         },
         copy: {
+            projective_geometry: {
+                files: [{
+                    cwd: 'src/projective_geometry',
+                    src: ['test.html'],
+                    dest: 'dist/projective_geometry',
+                    expand: true
+                }]
+            },
             edge_detection: {
                 files: [{
                     cwd: 'src/edge_detection',
@@ -127,9 +136,47 @@ module.exports = function (grunt) {
             ann: {
                 files: ['src/a_nn/**/*'],
                 tasks: ['clean:ann', 'copy:ann', 'copy:dependencies']
+            },
+            projective_geometry: {
+                files: ['src/projective_geometry/**/*'],
+                tasks: ['clean:projective_geometry', 'webpack:projective_geometry', 'copy:projective_geometry', 'copy:dependencies']
             }
         },
         webpack: {
+            projective_geometry: {
+                entry: [
+                    './src/projective_geometry/Project.es6'
+                ],
+                output: {
+                    filename: './dist/projective_geometry/Project.js'
+                },
+                module: {
+                    loaders: [{
+                        exclude: /node_modules/,
+                        loader: 'babel-loader'
+                    }]
+                },
+                resolve: {
+                    extensions: ['.es6', '.js', '.jsx']
+                },
+                stats: {
+                    colors: true
+                },
+                progress: false,
+                inline: false,
+                devtool: 'source-map',
+                plugins: [
+                    new webpack.optimize.UglifyJsPlugin({
+                        compress: {
+                            warnings: false
+                        },
+                        output: {
+                            comments: false
+                        },
+                        sourceMap: true
+                    })
+                ]
+            },
             edge_detection: {
                 entry: [
                     './src/edge_detection/sobel/Edge.es6'
