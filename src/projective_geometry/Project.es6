@@ -80,7 +80,8 @@ new class Project {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.can.width, this.can.height);
+        this.ctx.fillStyle = "black";
+        this.ctx.fillRect(0, 0, this.can.width, this.can.height);
 
         this.drawSquare();
         this.drawBox();
