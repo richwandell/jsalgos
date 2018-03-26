@@ -81,6 +81,14 @@ new class Project {
                 this.mouseStartY = e.originalEvent.changedTouches[0].clientY;
                 this.mouseStartRotationX = this.rotationX;
                 this.mouseStartRotationY = this.rotationY;
+                if(e.originalEvent.changedTouches.length > 1) {
+                    this.pinching = true;
+                    this.pinchingX = e.originalEvent.changedTouches[1].clientX;
+                    this.pinchingY = e.originalEvent.changedTouches[1].clientY;
+                    this.pinchDistance = this.distance([this.mouseStartX, this.mouseStartY], [this.poinchingX, this.pinchingY]);
+                } else {
+                    this.pinching = false;
+                }
             },
             "touchmove": (e) => {
                 this.mouseX = e.originalEvent.changedTouches[0].clientX;
@@ -91,6 +99,14 @@ new class Project {
                     this.rotationY = this.mouseStartRotationY + (this.mouseStartY - this.mouseY);
                     $("#rotationx").val(this.rotationX);
                     $("#rotationy").val(this.rotationY);
+                    let currentDistance = this.distance([
+                        e.originalEvent.changedTouches[0].clientX,
+                        e.originalEvent.changedTouches[0].clientY
+                    ], [
+                        e.originalEvent.changedTouches[1].clientX,
+                        e.originalEvent.changedTouches[1].clientY
+                    ]);
+                    this.boxZ = this.pinchDistance - currentDistance;
                 }
             },
             "touchend": (e) => {
@@ -98,6 +114,16 @@ new class Project {
                 this.mouseY = e.originalEvent.changedTouches[0].clientY;
             }
         });
+    }
+
+    distance(point1, point2) {
+        return Math.sqrt(
+            Math.pow(
+                Math.abs(point1[0] - point2[0])
+            ) + Math.pow(
+                Math.abs(point1[1] - point2[1])
+            )
+        );
     }
 
     draw() {
