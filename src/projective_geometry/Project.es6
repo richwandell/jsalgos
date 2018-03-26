@@ -85,7 +85,7 @@ new class Project {
                     this.pinching = true;
                     this.pinchingX = e.originalEvent.changedTouches[1].clientX;
                     this.pinchingY = e.originalEvent.changedTouches[1].clientY;
-                    this.pinchDistance = this.distance([this.mouseStartX, this.mouseStartY], [this.poinchingX, this.pinchingY]);
+                    this.pinchDistance = this.distance([this.mouseStartX, this.mouseStartY], [this.pinchingX, this.pinchingY]);
                 } else {
                     this.pinching = false;
                 }
