@@ -75,6 +75,27 @@ new class Project {
                     $("#rotationx").val(this.rotationX);
                     $("#rotationy").val(this.rotationY);
                 }
+            },
+            "touchstart": (e) => {
+                this.mouseStartX = e.originalEvent.changedTouches[0].clientX;
+                this.mouseStartY = e.originalEvent.changedTouches[0].clientY;
+                this.mouseStartRotationX = this.rotationX;
+                this.mouseStartRotationY = this.rotationY;
+            },
+            "touchmove": (e) => {
+                this.mouseX = e.originalEvent.changedTouches[0].clientX;
+                this.mouseY = e.originalEvent.changedTouches[0].clientY;
+
+                if(e.originalEvent.changedTouches.length > 1) {
+                    this.rotationX = this.mouseStartRotationX + (this.mouseStartX - this.mouseX);
+                    this.rotationY = this.mouseStartRotationY + (this.mouseStartY - this.mouseY);
+                    $("#rotationx").val(this.rotationX);
+                    $("#rotationy").val(this.rotationY);
+                }
+            },
+            "touchend": (e) => {
+                this.mouseX = e.originalEvent.changedTouches[0].clientX;
+                this.mouseY = e.originalEvent.changedTouches[0].clientY;
             }
         });
     }
@@ -219,11 +240,8 @@ new class Project {
         return math.matrix(newc);
     }
 
-    projectPerspective(vertexes, center) {
+    projectPerspective(vertexes) {
         let d = this.camera.z;
-
-        let r = d / center[1];
-        let projectedCenter = [r * center[0], r * center[2], 1];
 
         let translateBackMatrix = math.matrix([
             [1, 0, this.can.width / 2],
@@ -231,24 +249,12 @@ new class Project {
             [0, 0, 1]
         ]);
 
-
-
         let vs = [];
         for(let row of vertexes._data) {
-            // row = math.multiply(projectionMatrix, row);
-            // row = math.multiply(translateCenterMatrix, row);
             let x = d * (row[0] / row[2]);
             let y = d * (row[1] / row[2]);
             row = math.matrix([x, y, 1]);
             row = math.multiply(translateBackMatrix, row);
-
-            // let r = d / row[1];
-            // row = math.matrix([
-            //     r * row[0],
-            //     r * row[2],
-            //     1
-            // ]);
-            // row = math.multiply(translateBackMatrix, row);
             vs.push([row._data[0], row._data[1]]);
         }
         return vs;
