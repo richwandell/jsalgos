@@ -106,7 +106,9 @@ new class Project {
                         e.originalEvent.changedTouches[1].clientX,
                         e.originalEvent.changedTouches[1].clientY
                     ]);
-                    this.boxZ += (this.pinchDistance - currentDistance);
+                    let dis = this.pinchDistance - currentDistance;
+                    $("#boxz").val(this.boxZ + dis);
+                    this.boxZ += dis;
                 }
             },
             "touchend": (e) => {
