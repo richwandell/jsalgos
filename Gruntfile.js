@@ -11,7 +11,8 @@ module.exports = function (grunt) {
             linear_regression: ['dist/linear_regression'],
             kalman: ['dist/kalman_filter'],
             ann: ['dist/a_nn'],
-            projective_geometry: ['dist/projective_geometry']
+            projective_geometry: ['dist/projective_geometry'],
+            particle_filter: ['dist/particle_filter']
         },
         copy: {
             projective_geometry: {
@@ -105,6 +106,14 @@ module.exports = function (grunt) {
                     cwd: 'src/linear_regression/ols',
                     src: ['*.*'],
                     dest: 'dist/linear_regression/ols',
+                    expand: true
+                }]
+            },
+            particle_filter: {
+                files: [{
+                    cwd: 'src/particle_filter',
+                    src: ['**/*'],
+                    dest: 'dist/particle_filter',
                     expand: true
                 }]
             }
