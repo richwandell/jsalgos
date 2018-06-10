@@ -1,9 +1,47 @@
 var webpack = require('webpack');
 
 module.exports = function (grunt) {
+
+    function wConfig(options) {
+        var config = {
+            module: {
+                loaders: [{
+                    exclude: /node_modules/,
+                    loader: 'babel-loader'
+                }]
+            },
+            resolve: {
+                extensions: ['.es6', '.js', '.jsx']
+            },
+            stats: {
+                colors: true
+            },
+            progress: false,
+            inline: false,
+            devtool: 'source-map',
+            plugins: [
+                new webpack.optimize.UglifyJsPlugin({
+                    compress: {
+                        warnings: false
+                    },
+                    output: {
+                        comments: false
+                    },
+                    sourceMap: true
+                })
+            ]
+        };
+
+        for(var k in options) {
+            config[k] = options[k];
+        }
+        return config;
+    }
+
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         clean: {
+            image_resizing: ['dist/image_resizing'],
             edge_detection: ['dist/edge_detection'],
             dist: ['dist'],
             knn: ['dist/k_nearest_neighbor'],
@@ -20,6 +58,14 @@ module.exports = function (grunt) {
                     cwd: 'src/projective_geometry',
                     src: ['test.html'],
                     dest: 'dist/projective_geometry',
+                    expand: true
+                }]
+            },
+            image_resizing: {
+                files: [{
+                    cwd: 'src/image_resizing',
+                    src: ['*.html', '*.png'],
+                    dest: 'dist/image_resizing',
                     expand: true
                 }]
             },
@@ -119,6 +165,10 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            image_resizing: {
+                files: ['src/image_resizing/**/*'],
+                tasks: ['clean:image_resizing', 'webpack:image_resizing', 'copy:image_resizing', 'copy:dependencies']
+            },
             edge: {
                 files: ['src/edge_detection/**/*'],
                 tasks: ['clean:edge_detection', 'webpack:edge_detection', 'webpack:edge_detection_worker',
@@ -152,6 +202,10 @@ module.exports = function (grunt) {
             }
         },
         webpack: {
+            image_resizing: wConfig({
+                entry: ['./src/image_resizing/ImageResizing.es6'],
+                output: {filename: './dist/image_resizing/ImageResizing.js'}
+            }),
             projective_geometry: {
                 entry: [
                     './src/projective_geometry/Project.es6'
