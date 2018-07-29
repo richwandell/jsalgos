@@ -177,32 +177,42 @@
             }
         });
 
-        for(var x = 0; x < particle_number / 5; x++){
-            var gx = particles[x].x;
-            if(good_x.indexOf(gx) == -1) {
-                good_x.push(gx);
+        var maxWeight = particles[0].w;
+        var minWeight = particles[particles.length - 1].w;
+        if(minWeight === maxWeight) {
+            minWeight = 0;
+        }
 
-                var l = Math.max(0, gx - 1);
-                var r = gx + 2;
-                for(; l <= r; l++) {
-                    if (good_x.indexOf(l) == -1){
-                        good_x.push(l);
-                    }
-                }
-            }
+        function particleNorm(w) {
+            return (w - minWeight) / (maxWeight - minWeight);
         }
 
         var k = new Kalman();
-        var new_particles = [];
         var est = 0;
-        for (var x = 0; x < particle_number; x++) {
-            var c_x = good_x[Math.floor(Math.random() * good_x.length)];
+        var ps = [];
+
+        for(var i = 0; i < particles.length; i++) {
+            var particle = particles[i];
+
+            var numKeep = Math.round(particleNorm(particle.w) * 100);
+
+            for(var j = 0; j < numKeep; j++) {
+                ps.push(particle.x);
+                ps.push(Math.max(0, particle.x - 1));
+                ps.push(particle.x + 1);
+            }
+            est = k(particle.x);
+        }
+
+        var new_particles = [];
+
+        while(new_particles.length < particles.length) {
+            var c_x = ps[Math.floor(Math.random() * ps.length)];
             new_particles.push({
                 x: c_x,
                 w: 0,
                 h: getY(c_x * mark_width)
             });
-            est = k(c_x);
         }
         airplane_position = est;
         particles = new_particles;
