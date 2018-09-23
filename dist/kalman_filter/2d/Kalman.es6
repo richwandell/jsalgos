@@ -1,16 +1,25 @@
+new class Kalman {
+    constructor() {
+        this.realNumbers = [];
+        this.dirtyNumbers = [];
+        this.kalmanPrediction = null;
+
+        var fake_which;
+
+        var real_number_array = [];
+
+        var cest,
+            pest = math.ones(2),
+            mea,
+            kg,
+            eest = math.ones(2),
+            emea = math.ones(2);
+    }
+}
+
+
 ;(function($){
-    var real_numbers = [], dirty_numbers = [], kalman_prediction;
 
-    var fake_which;
-
-    var real_number_array = [];
-
-    var cest,
-        pest = math.ones(2),
-        mea,
-        kg,
-        eest = math.ones(2),
-        emea = math.ones(2);
 
     function kalman(m){
         mea = m;

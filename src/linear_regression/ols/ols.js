@@ -11,18 +11,18 @@
     });
 
     var linreg = (function(numbers){
-        var a, b, xsum = 0, ysum = 0, xysum = 0, x2sum = 0, y2sum = 0;
+        var xsum = 0, ysum = 0, xysum = 0, x2sum = 0, m, b;
         for(var i = 0; i < numbers.length; i++){
             xsum += i;
             ysum += numbers[i];
             xysum += i * numbers[i];
-            x2sum += Math.pow(numbers[i], 2);
-            y2sum += Math.pow(i, 2);
+            x2sum += Math.pow(i, 2);
         }
-        a = (ysum * x2sum - xsum * xysum) / (numbers.length * x2sum - Math.pow(xsum, 2));
-        b = (numbers.length * xysum - xsum * ysum) / (numbers.length * x2sum - Math.pow(xsum, 2));
+        m = (numbers.length * xysum - xsum * ysum) / (numbers.length * x2sum - Math.pow(xsum, 2));
+        b = (ysum - m * xsum) / numbers.length;
+
         return function(x){
-            return a + b * x;
+            return b + m * x;
         }
     })(measurements);
 

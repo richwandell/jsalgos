@@ -190,7 +190,7 @@ module.exports = function (grunt) {
             },
             kalman_filter: {
                 files: ['src/kalman_filter/**/*'],
-                tasks: ['clean:kalman', 'copy:kalman', 'copy:dependencies']
+                tasks: ['clean:kalman', 'copy:kalman', 'webpack:kalman',  'copy:dependencies']
             },
             ann: {
                 files: ['src/a_nn/**/*'],
@@ -202,6 +202,10 @@ module.exports = function (grunt) {
             }
         },
         webpack: {
+            kalman: wConfig({
+                entry: ['./src/kalman_filter/2d/Kalman.es6'],
+                output: {filename: './dist/kalman_filter/2d/kalman_filter.js'}
+            }),
             image_resizing: wConfig({
                 entry: ['./src/image_resizing/ImageResizing.es6'],
                 output: {filename: './dist/image_resizing/ImageResizing.js'}
