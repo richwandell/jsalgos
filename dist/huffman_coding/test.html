@@ -1,0 +1,116 @@
+<style>
+
+    body {
+        margin: auto;
+        width: 1060px;
+    }
+
+    #the_text {
+        min-width: 100%;
+        height: 200px;
+    }
+
+    .flex_container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .whole_container{
+        width: 100%;
+    }
+
+    table.ftable {
+        border-collapse: collapse;
+        flex-grow: 1;
+        margin: 5px;
+    }
+
+    .ftable td, .ftable th {
+        border: 1px solid #00000029;
+    }
+
+    .ftable caption {
+        border-top: 1px solid #00000029;
+        border-right: 1px solid #00000029;
+        border-left: 1px solid #00000029;
+        padding: 7px;
+        background: aliceblue;
+    }
+
+    .ftable tbody td:last-child,
+    .ftable tbody td:nth-child(3){
+        text-align: right;
+    }
+
+    .ftable tfoot td {
+        text-align: right;
+    }
+
+    /*.node circle {*/
+        /*stroke-width: 3px;*/
+    /*}*/
+
+    .node text {
+        font: 12px sans-serif;
+    }
+
+    .link {
+        stroke: #ccc;
+        stroke-width: 2px;
+    }
+
+    .link text {
+        fill: black;
+        font: 12px sans-serif;
+    }
+
+    .d3_container{
+        zoom: .5;
+    }
+
+</style>
+<h1>Huffman Coding Example</h1>
+<textarea id="the_text">
+    Hi this is some sample text.
+
+    Type in this box to see the live update.
+</textarea>
+<div class="whole_container">
+    <h2>Mouse wheel to zoom in and out</h2>
+    <div class="flex_container">
+        <div id="d3_container_1" class="d3_container"></div>
+        <div id="d3_container_2" class="d3_container"></div>
+    </div>
+    <div class="flex_container">
+        <table id="frequency_before" class="ftable">
+            <caption>Character Frequency Before Encoding</caption>
+            <thead>
+                <tr>
+                    <th>Character</th>
+                    <th>Code</th>
+                    <th>Frequency</th>
+                    <th>Total Bits</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+        <table id="frequency_after" class="ftable">
+            <caption>Character Frequency After Encoding</caption>
+            <thead>
+            <tr>
+                <th>Character</th>
+                <th>Code</th>
+                <th>Frequency</th>
+                <th>Total Bits</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+
+</div>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="../scripts/jquery.min.js"></script>
+<script src="Huffman.js" ></script>

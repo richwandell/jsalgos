@@ -57,7 +57,7 @@ module.exports = function (grunt) {
             huffman_coding: {
                 files: [{
                     cwd: 'src/huffman_coding',
-                    src: ['index.html'],
+                    src: ['test.html'],
                     dest: 'dist/huffman_coding',
                     expand: true
                 }]
