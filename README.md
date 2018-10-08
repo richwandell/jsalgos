@@ -40,5 +40,5 @@ https://richwandell.github.io/jsalgos/dist/edge_detection/sobel/test.html
 https://richwandell.github.io/jsalgos/dist/projective_geometry/test.html
 
 ## Huffman Coding
-https://richwandell.github.io/jsalgos/dist/huffman_coding/
+https://richwandell.github.io/jsalgos/dist/huffman_coding/test.html
 
