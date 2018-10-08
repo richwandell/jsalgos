@@ -41,6 +41,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         clean: {
+            huffman_coding: ['dist/huffman_coding'],
             image_resizing: ['dist/image_resizing'],
             edge_detection: ['dist/edge_detection'],
             dist: ['dist'],
@@ -53,6 +54,14 @@ module.exports = function (grunt) {
             particle_filter: ['dist/particle_filter']
         },
         copy: {
+            huffman_coding: {
+                files: [{
+                    cwd: 'src/huffman_coding',
+                    src: ['index.html'],
+                    dest: 'dist/huffman_coding',
+                    expand: true
+                }]
+            },
             projective_geometry: {
                 files: [{
                     cwd: 'src/projective_geometry',
@@ -165,6 +174,10 @@ module.exports = function (grunt) {
             }
         },
         watch: {
+            huffman_coding: {
+                files: ['src/huffman_coding/**/*'],
+                tasks: ['clean:huffman_coding', 'webpack:huffman_coding', 'copy:huffman_coding', 'copy:dependencies']
+            },
             image_resizing: {
                 files: ['src/image_resizing/**/*'],
                 tasks: ['clean:image_resizing', 'webpack:image_resizing', 'copy:image_resizing', 'copy:dependencies']
@@ -202,6 +215,10 @@ module.exports = function (grunt) {
             }
         },
         webpack: {
+            huffman_coding: wConfig({
+                entry: ['./src/huffman_coding/Huffman.es6'],
+                output: {filename: './dist/huffman_coding/Huffman.js'}
+            }),
             kalman: wConfig({
                 entry: ['./src/kalman_filter/2d/Kalman.es6'],
                 output: {filename: './dist/kalman_filter/2d/kalman_filter.js'}

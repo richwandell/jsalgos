@@ -39,3 +39,6 @@ https://richwandell.github.io/jsalgos/dist/edge_detection/sobel/test.html
 ## Orthographic and Perspective 3D projections
 https://richwandell.github.io/jsalgos/dist/projective_geometry/test.html
 
+## Huffman Coding
+https://richwandell.github.io/jsalgos/dist/huffman_coding/
+
