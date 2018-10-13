@@ -42,3 +42,5 @@ https://richwandell.github.io/jsalgos/dist/projective_geometry/test.html
 ## Huffman Coding
 https://richwandell.github.io/jsalgos/dist/huffman_coding/test.html
 
+## Fractal Tree
+https://richwandell.github.io/jsalgos/dist/fractal_tree/index.html

@@ -42,6 +42,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON("package.json"),
         clean: {
             huffman_coding: ['dist/huffman_coding'],
+            fractal_tree: ['dist/fractal_tree'],
             image_resizing: ['dist/image_resizing'],
             edge_detection: ['dist/edge_detection'],
             dist: ['dist'],
@@ -59,6 +60,14 @@ module.exports = function (grunt) {
                     cwd: 'src/huffman_coding',
                     src: ['test.html'],
                     dest: 'dist/huffman_coding',
+                    expand: true
+                }]
+            },
+            fractal_tree: {
+                files: [{
+                    cwd: 'src/fractal_tree',
+                    src: ['*.html'],
+                    dest: 'dist/fractal_tree',
                     expand: true
                 }]
             },
@@ -178,6 +187,10 @@ module.exports = function (grunt) {
                 files: ['src/huffman_coding/**/*'],
                 tasks: ['clean:huffman_coding', 'webpack:huffman_coding', 'copy:huffman_coding', 'copy:dependencies']
             },
+            fractal_tree: {
+                files: ['src/fractal_tree/**/*'],
+                tasks: ['clean:fractal_tree', 'webpack:fractal_tree', 'copy:fractal_tree', 'copy:dependencies']
+            },
             image_resizing: {
                 files: ['src/image_resizing/**/*'],
                 tasks: ['clean:image_resizing', 'webpack:image_resizing', 'copy:image_resizing', 'copy:dependencies']
@@ -218,6 +231,10 @@ module.exports = function (grunt) {
             huffman_coding: wConfig({
                 entry: ['./src/huffman_coding/Huffman.es6'],
                 output: {filename: './dist/huffman_coding/Huffman.js'}
+            }),
+            fractal_tree: wConfig({
+                entry: ['./src/fractal_tree/FractalTree.es6'],
+                output: {filename: './dist/fractal_tree/FractalTree.js'}
             }),
             kalman: wConfig({
                 entry: ['./src/kalman_filter/2d/Kalman.es6'],
