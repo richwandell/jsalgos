@@ -42,6 +42,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON("package.json"),
         clean: {
             huffman_coding: ['dist/huffman_coding'],
+            mandelbrot_set: ['dist/mandelbrot_set'],
             fractal_tree: ['dist/fractal_tree'],
             image_resizing: ['dist/image_resizing'],
             edge_detection: ['dist/edge_detection'],
@@ -60,6 +61,14 @@ module.exports = function (grunt) {
                     cwd: 'src/huffman_coding',
                     src: ['test.html'],
                     dest: 'dist/huffman_coding',
+                    expand: true
+                }]
+            },
+            mandelbrot_set: {
+                files: [{
+                    cwd: 'src/mandelbrot_set',
+                    src: ['*.html'],
+                    dest: 'dist/mandelbrot_set',
                     expand: true
                 }]
             },
@@ -187,6 +196,10 @@ module.exports = function (grunt) {
                 files: ['src/huffman_coding/**/*'],
                 tasks: ['clean:huffman_coding', 'webpack:huffman_coding', 'copy:huffman_coding', 'copy:dependencies']
             },
+            mandelbrot_set: {
+                files: ['src/mandelbrot_set/**/*'],
+                tasks: ['clean:mandelbrot_set', 'webpack:mandelbrot_set', 'copy:mandelbrot_set', 'copy:dependencies']
+            },
             fractal_tree: {
                 files: ['src/fractal_tree/**/*'],
                 tasks: ['clean:fractal_tree', 'webpack:fractal_tree', 'copy:fractal_tree', 'copy:dependencies']
@@ -231,6 +244,10 @@ module.exports = function (grunt) {
             huffman_coding: wConfig({
                 entry: ['./src/huffman_coding/Huffman.es6'],
                 output: {filename: './dist/huffman_coding/Huffman.js'}
+            }),
+            mandelbrot_set: wConfig({
+                entry: ['./src/mandelbrot_set/Mandelbrot.es6'],
+                output: {filename: './dist/mandelbrot_set/Mandelbrot.js'}
             }),
             fractal_tree: wConfig({
                 entry: ['./src/fractal_tree/FractalTree.es6'],

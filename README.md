@@ -44,3 +44,6 @@ https://richwandell.github.io/jsalgos/dist/huffman_coding/test.html
 
 ## Fractal Tree
 https://richwandell.github.io/jsalgos/dist/fractal_tree/index.html
+
+## Mandelbrot Set
+https://richwandell.github.io/jsalgos/dist/mandelbrot_set/index.html
