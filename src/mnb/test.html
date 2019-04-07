@@ -12,11 +12,70 @@
         .mdl-data-table td, .mdl-data-table th {
             height: auto;
         }
+
+        td div.selected {
+            border-radius: 109px;
+            background: greenyellow;
+            padding: 5px;
+            width: 32px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="react_container"></div>
+    <div>
+        <article className="markdown-body entry-content p-5" itemProp="text">
+            <h1>50k Plus</h1>
+            <p>Predicting whether or not an adult makes 50k/yr or less, or over 50k/yr.</p>
+            <p>The data used has been taken from the UCI Machine Learning Repository. It consists of US Census
+                Bureau data from 2004.</p>
+            <ul>
+                <li><a href="http://archive.ics.uci.edu/ml/datasets/Adult" rel="nofollow">UCI Machine Learning
+                    Repository Adult Dataset</a> - Bache, K. &amp; Lichman, M. (2013). UCI Machine Learning
+                    Repository [<a href="http://archive.ics.uci.edu/ml"
+                                   rel="nofollow">http://archive.ics.uci.edu/ml</a>]. Irvine, CA: University of
+                    California, School of Information and Computer Science.
+                </li>
+            </ul>
+        </article>
+
+        <table id="select_box_holder">
+            <thead>
+                <tr>
+                    <td>Feature</td>
+                    <td>Value (X)</td>
+                    <td>P(X)</td>
+                    <td>P(X|<=50K)</td>
+                    <td>P(X|>50K)</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <table id="results_table">
+            <tbody>
+                <tr>
+                    <td colspan="2">Probability of selected using all defined fields</td>
+                </tr>
+                <tr>
+                    <td><div id="lteall"><=50K</div></td>
+                    <td><div id="eqall">>50K</div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Probability of selected using all defined non zero fields</td>
+                </tr>
+                <tr>
+                    <td><div id="ltenonzero"><=50K</div></td>
+                    <td><div id="eqnonzero">>50K</div></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 <script src="../scripts/jquery.min.js"></script>

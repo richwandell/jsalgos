@@ -7,6 +7,10 @@ class DataTable extends Component {
         this.mnb = props.mnb;
     }
 
+    componentDidMount(){
+
+    }
+
     render () {
         return (
             <table id="data_table" className="mdl-data-table" cellSpacing="0" />

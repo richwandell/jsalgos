@@ -53,7 +53,8 @@ module.exports = function (grunt) {
             kalman: ['dist/kalman_filter'],
             ann: ['dist/a_nn'],
             projective_geometry: ['dist/projective_geometry'],
-            particle_filter: ['dist/particle_filter']
+            particle_filter: ['dist/particle_filter'],
+            mnb: ['dist/mnb']
         },
         copy: {
             huffman_coding: {
@@ -189,6 +190,16 @@ module.exports = function (grunt) {
                     dest: 'dist/particle_filter',
                     expand: true
                 }]
+            },
+            mnb: {
+                files: [
+                    {
+                        cwd: 'src/mnb',
+                        src: ['**/*'],
+                        dest: 'dist/mnb',
+                        expand: true
+                    }
+                ]
             }
         },
         watch: {
@@ -238,6 +249,10 @@ module.exports = function (grunt) {
             projective_geometry: {
                 files: ['src/projective_geometry/**/*'],
                 tasks: ['clean:projective_geometry', 'webpack:projective_geometry', 'copy:projective_geometry', 'copy:dependencies']
+            },
+            mnb: {
+                files: ['src/mnb/**/*'],
+                tasks: ['clean:mnb', 'webpack:mnb', 'copy:mnb', 'copy:dependencies']
             }
         },
         webpack: {
