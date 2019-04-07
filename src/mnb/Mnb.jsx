@@ -176,26 +176,24 @@ class Mnb {
         $(".selected").removeClass("selected");
         let pLTE50K = ((pLTE50KallTop/pLTE50KallBottom));
         let pGT50K = ((pGT50KallTop/pGT50KallBottom));
-        let lt = pLTE50K > pGT50K;
         $("#results_table tbody tr:nth-child(3)").html(`
             <td>${pLTE50K}</td>            
             <td>${pGT50K}</td>
         `);
-        if(lt) {
+        if(pLTE50K > pGT50K) {
             $("div#lteall").addClass("selected");
-        } else {
+        } else if(pLTE50K < pGT50K) {
             $("div#eqall").addClass("selected");
         }
         let pLTE50KnonZero = ((pLTE50KnonZeroTop/pLTE50KnonZeroBottom));
         let pGT50KnonZero = ((pGT50KnonZeroTop/pGT50KnonZeroBottom));
-        lt = pLTE50KnonZero > pGT50KnonZero;
         $("#results_table tbody tr:nth-child(6)").html(`
             <td>${pLTE50KnonZero}</td>
             <td>${pGT50KnonZero}</td>
         `);
-        if(lt) {
+        if(pLTE50KnonZero > pGT50KnonZero) {
             $("div#ltenonzero").addClass("selected");
-        } else {
+        } else if(pLTE50KnonZero < pGT50KnonZero) {
             $("div#eqnonzero").addClass("selected");
         }
         for(let c of this.classes) {
