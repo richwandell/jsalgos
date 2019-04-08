@@ -64,13 +64,13 @@ class Mnb {
                         this.uniqueCats[i].push(el);
                     }
                     if(typeof(this.counts[i][el]) === "undefined") {
-                        this.counts[i][el] = 0;
+                        this.counts[i][el] = 1;
                     }
                     if(typeof(this.countGT50k[i][el]) === "undefined"){
-                        this.countGT50k[i][el] = 0;
+                        this.countGT50k[i][el] = 1;
                     }
                     if(typeof(this.countLTE50k[i][el]) === "undefined"){
-                        this.countLTE50k[i][el] = 0;
+                        this.countLTE50k[i][el] = 1;
                     }
                     this.counts[i][el] += 1;
 
@@ -123,6 +123,7 @@ class Mnb {
                     </tr>
                 `);
         }
+        $(`#select_box_holder select[data-category='2']`).val(" ");
     }
 
     displayProbabilities() {
@@ -132,10 +133,7 @@ class Mnb {
         let pLTE50KallBottom = 1.0;
         let pGT50KallBottom = 1.0;
 
-        let pLTE50KnonZeroTop = 1.0;
-        let pGT50KnonZeroTop = 1.0;
-        let pLTE50KnonZeroBottom = 1.0;
-        let pGT50KnonZeroBottom = 1.0;
+
         for(let box of selectBoxes) {
             let category = Number($(box).data("category"));
             let value = $(box).val();
@@ -160,16 +158,6 @@ class Mnb {
                 pGT50KallTop *= (v2 / c2);
                 pGT50KallBottom *= (c2 / this.data.length);
             }
-
-            if(
-                v1 !== undefined && v1 > 0
-                && v2 !== undefined && v2 > 0
-            ) {
-                pLTE50KnonZeroTop *= (v1 / c1);
-                pLTE50KnonZeroBottom *= (c1 / this.data.length);
-                pGT50KnonZeroTop *= (v2 / c2);
-                pGT50KnonZeroBottom *= (c2 / this.data.length);
-            }
             p = `${v2}/${c2}`;
             $(`#select_box_holder tr[data-category="${category}"] td:nth-child(5)`).html(p);
         }
@@ -184,17 +172,6 @@ class Mnb {
             $("div#lteall").addClass("selected");
         } else if(pLTE50K < pGT50K) {
             $("div#eqall").addClass("selected");
-        }
-        let pLTE50KnonZero = ((pLTE50KnonZeroTop/pLTE50KnonZeroBottom));
-        let pGT50KnonZero = ((pGT50KnonZeroTop/pGT50KnonZeroBottom));
-        $("#results_table tbody tr:nth-child(6)").html(`
-            <td>${pLTE50KnonZero}</td>
-            <td>${pGT50KnonZero}</td>
-        `);
-        if(pLTE50KnonZero > pGT50KnonZero) {
-            $("div#ltenonzero").addClass("selected");
-        } else if(pLTE50KnonZero < pGT50KnonZero) {
-            $("div#eqnonzero").addClass("selected");
         }
         for(let c of this.classes) {
             let p = this.counts[14][c];
