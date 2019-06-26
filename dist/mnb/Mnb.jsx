@@ -130,44 +130,54 @@ class Mnb {
         let selectBoxes = $("#select_box_holder select");
         let pLTE50KallTop = 1.0;
         let pGT50KallTop = 1.0;
-        let pLTE50KallBottom = 1.0;
-        let pGT50KallBottom = 1.0;
 
+        let c1 = this.counts[14]['<=50K'];
+        let c2 = this.counts[14]['>50K'];
+
+        $(`#select_box_holder tbody tr td:nth-child(3)`).html('');
+        $(`#select_box_holder tbody tr td:nth-child(4)`).html('');
+        $(`#select_box_holder tbody tr td:nth-child(5)`).html('');
 
         for(let box of selectBoxes) {
             let category = Number($(box).data("category"));
             let value = $(box).val();
+            if (value === "" || value === null) continue;
+
             let p = this.counts[category][value];
+
             p = `${p}/${this.data.length}`;
             $(`#select_box_holder tr[data-category="${category}"] td:nth-child(3)`).html(p);
 
-
             let v1 = this.countLTE50k[category][value];
-            let c1 = this.counts[14]['<=50K'];
-            if(v1 !== undefined) {
-                pLTE50KallTop *= (v1 / c1);
-                pLTE50KallBottom *= (c1 / this.data.length);
-            }
+            pLTE50KallTop *= (v1 / c1);
 
             p = `${v1}/${c1}`;
             $(`#select_box_holder tr[data-category="${category}"] td:nth-child(4)`).html(p);
 
             let v2 = this.countGT50k[category][value];
-            let c2 = this.counts[14]['>50K'];
-            if(v2 !== undefined) {
-                pGT50KallTop *= (v2 / c2);
-                pGT50KallBottom *= (c2 / this.data.length);
-            }
+            pGT50KallTop *= (v2  / c2);
+
             p = `${v2}/${c2}`;
             $(`#select_box_holder tr[data-category="${category}"] td:nth-child(5)`).html(p);
+
         }
+
+        pLTE50KallTop *= (c1 / this.data.length);
+        pGT50KallTop *= (c2 / this.data.length);
+
         $(".selected").removeClass("selected");
-        let pLTE50K = ((pLTE50KallTop/pLTE50KallBottom));
-        let pGT50K = ((pGT50KallTop/pGT50KallBottom));
+        let denominator = pLTE50KallTop + pGT50KallTop;
+        let pLTE50K = (pLTE50KallTop / (denominator));
+        let pGT50K = (pGT50KallTop / (denominator));
+
+        let sumProbls = pLTE50K + pGT50K;
+
         $("#results_table tbody tr:nth-child(3)").html(`
             <td>${pLTE50K}</td>            
-            <td>${pGT50K}</td>
+            <td>${pGT50K}</td>            
         `);
+
+
         if(pLTE50K > pGT50K) {
             $("div#lteall").addClass("selected");
         } else if(pLTE50K < pGT50K) {
