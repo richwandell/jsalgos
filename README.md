@@ -16,10 +16,7 @@ https://richwandell.github.io/jsalgos/dist/logistic_regression/test.html
 https://richwandell.github.io/jsalgos/dist/a_nn/1/test.html
 
 ## Kalman Filter
-#### 1d
 https://richwandell.github.io/jsalgos/dist/kalman_filter/1d/test.html
-#### 2d
-https://richwandell.github.io/jsalgos/dist/kalman_filter/2d/test.html
 
 ## Particle Filter
 https://richwandell.github.io/jsalgos/dist/particle_filter/test.html
@@ -50,3 +47,6 @@ https://richwandell.github.io/jsalgos/dist/mandelbrot_set/index.html
 
 ## Naive Bayes Classifier
 https://richwandell.github.io/jsalgos/dist/mnb/test.html
+
+TODO:
+1. Mean-Shift Clustering
