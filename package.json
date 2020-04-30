@@ -20,7 +20,7 @@
     "grunt-exec": "^1.0.1",
     "grunt-webpack": "^2.0.1",
     "highcharts": "^6.1.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "mathjs": "^3.4.1",
     "numeric": "^1.2.6",
     "papaparse": "^4.1.4",
