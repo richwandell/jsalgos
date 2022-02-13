@@ -57,9 +57,9 @@ class Mnb {
         Papa.parse("adult_data.csv", {
             download: true,
             step: (row) => {
-                row.data[0] = row.data[0].map((x) => x.trim());
-                this.data.push(row.data[0]);
-                row.data[0].forEach((el, i) => {
+                row.data = row.data.map((x) => x.trim());
+                this.data.push(row.data);
+                row.data.forEach((el, i) => {
                     if(this.uniqueCats[i].indexOf(el) === -1){
                         this.uniqueCats[i].push(el);
                     }
@@ -74,7 +74,7 @@ class Mnb {
                     }
                     this.counts[i][el] += 1;
 
-                    if(row.data[0][14] === this.classes[0]) {
+                    if(row.data[14] === this.classes[0]) {
                         this.countLTE50k[i][el] += 1;
                     } else {
                         this.countGT50k[i][el] += 1;
