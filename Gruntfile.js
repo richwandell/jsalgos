@@ -42,6 +42,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON("package.json"),
         clean: {
             huffman_coding: ['dist/huffman_coding'],
+            dithering: ['dist/dithering'],
             mandelbrot_set: ['dist/mandelbrot_set'],
             fractal_tree: ['dist/fractal_tree'],
             image_resizing: ['dist/image_resizing'],
@@ -62,6 +63,14 @@ module.exports = function (grunt) {
                     cwd: 'src/huffman_coding',
                     src: ['test.html'],
                     dest: 'dist/huffman_coding',
+                    expand: true
+                }]
+            },
+            dithering: {
+                files: [{
+                    cwd: 'src/dithering',
+                    src: ['*.html', '*.jpg'],
+                    dest: 'dist/dithering',
                     expand: true
                 }]
             },
@@ -207,6 +216,10 @@ module.exports = function (grunt) {
                 files: ['src/huffman_coding/**/*'],
                 tasks: ['clean:huffman_coding', 'webpack:huffman_coding', 'copy:huffman_coding', 'copy:dependencies']
             },
+            dithering: {
+                files: ['src/dithering/**/*'],
+                tasks: ['clean:dithering', 'webpack:dithering', 'copy:dithering', 'copy:dependencies']
+            },
             mandelbrot_set: {
                 files: ['src/mandelbrot_set/**/*'],
                 tasks: ['clean:mandelbrot_set', 'webpack:mandelbrot_set', 'copy:mandelbrot_set', 'copy:dependencies']
@@ -260,6 +273,10 @@ module.exports = function (grunt) {
                 entry: ['./src/huffman_coding/Huffman.es6'],
                 output: {filename: './dist/huffman_coding/Huffman.js'}
             }),
+            dithering: wConfig({
+                entry: ['./src/dithering/Dithering.es6'],
+                output: {filename: './dist/dithering/dithering.js'}
+            }),
             mandelbrot_set: wConfig({
                 entry: ['./src/mandelbrot_set/Mandelbrot.es6'],
                 output: {filename: './dist/mandelbrot_set/Mandelbrot.js'}
@@ -276,40 +293,14 @@ module.exports = function (grunt) {
                 entry: ['./src/image_resizing/ImageResizing.es6'],
                 output: {filename: './dist/image_resizing/ImageResizing.js'}
             }),
-            projective_geometry: {
+            projective_geometry: wConfig({
                 entry: [
                     './src/projective_geometry/Project.es6'
                 ],
                 output: {
                     filename: './dist/projective_geometry/Project.js'
-                },
-                module: {
-                    loaders: [{
-                        exclude: /node_modules/,
-                        loader: 'babel-loader'
-                    }]
-                },
-                resolve: {
-                    extensions: ['.es6', '.js', '.jsx']
-                },
-                stats: {
-                    colors: true
-                },
-                progress: false,
-                inline: false,
-                devtool: 'source-map',
-                plugins: [
-                    new webpack.optimize.UglifyJsPlugin({
-                        compress: {
-                            warnings: false
-                        },
-                        output: {
-                            comments: false
-                        },
-                        sourceMap: true
-                    })
-                ]
-            },
+                }
+            }),
             edge_detection: {
                 entry: [
                     './src/edge_detection/sobel/Edge.es6'
