@@ -23,7 +23,7 @@
     "jquery": "^3.5.0",
     "mathjs": "^3.4.1",
     "numeric": "^1.2.6",
-    "papaparse": "^4.1.4",
+    "papaparse": "^5.2.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
