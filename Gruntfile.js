@@ -18,18 +18,7 @@ module.exports = function (grunt) {
             },
             progress: false,
             inline: false,
-            devtool: 'source-map',
-            plugins: [
-                new webpack.optimize.UglifyJsPlugin({
-                    compress: {
-                        warnings: false
-                    },
-                    output: {
-                        comments: false
-                    },
-                    sourceMap: true
-                })
-            ]
+            devtool: 'inline-source-map'
         };
 
         for(var k in options) {

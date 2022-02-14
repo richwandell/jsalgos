@@ -2,9 +2,59 @@
 
 <head>
     <meta charset="utf-8">
-    <script src="dithering.js" ></script>
+    <style>
+
+        table {
+            width: 1920px;
+        }
+        canvas {
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
+Change Quantization Factor: <input id="quantization-factor" type="number" value="1" />
+<table>
+    <thead>
+        <tr>
+            <td>
+                Original Image
+            </td>
+            <td>
+                Quantized Image
+            </td>
+            <td>
+                Dithered Image
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <canvas id="original-image1" ></canvas>
+        </td>
+        <td>
+            <canvas id="quantized-image1" ></canvas>
+        </td>
+        <td>
+            <canvas id="dithered-image1" ></canvas>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <canvas id="original-image2" ></canvas>
+        </td>
+        <td>
+            <canvas id="quantized-image2" ></canvas>
+        </td>
+        <td>
+            <canvas id="dithered-image2" ></canvas>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
+
+<script src="dithering.js" ></script>
