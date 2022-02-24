@@ -48,5 +48,8 @@ https://richwandell.github.io/jsalgos/dist/mandelbrot_set/index.html
 ## Naive Bayes Classifier
 https://richwandell.github.io/jsalgos/dist/mnb/test.html
 
+## Dithering
+https://richwandell.github.io/jsalgos/dist/dithering/index.html
+
 TODO:
 1. Mean-Shift Clustering
