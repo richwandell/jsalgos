@@ -162,21 +162,21 @@ new class Dithering {
         dCanvas.height = height;
         qCanvas.width = width;
         qCanvas.height = height;
-
+        oCtx.imageSmoothingEnabled = false;
         oCtx.drawImage(img, 0, 0);
 
         let [dithered, quantized] = this.dither(Array.from(this.getImageData(which).data), width, height);
         {
             let data = Uint8ClampedArray.from(dithered);
             let newImageData = new ImageData(data, width, height);
-
+            dCtx.imageSmoothingEnabled = false;
             dCtx.clearRect(0, 0, width, height);
             dCtx.putImageData(newImageData, 0, 0);
         }
         {
             let data = Uint8ClampedArray.from(quantized);
             let newImageData = new ImageData(data, width, height);
-
+            qCtx.imageSmoothingEnabled = false;
             qCtx.clearRect(0, 0, width, height);
             qCtx.putImageData(newImageData, 0, 0);
         }
