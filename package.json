@@ -19,7 +19,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-exec": "^1.0.1",
     "grunt-webpack": "^2.0.1",
-    "highcharts": "^6.1.0",
+    "highcharts": "^9.0.0",
     "jquery": "^3.5.0",
     "mathjs": "^7.5.1",
     "numeric": "^1.2.6",
