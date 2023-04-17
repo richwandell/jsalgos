@@ -24,8 +24,8 @@
     "mathjs": "^7.5.1",
     "numeric": "^1.2.6",
     "papaparse": "^5.2.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "webpack": "^2.2.1"
